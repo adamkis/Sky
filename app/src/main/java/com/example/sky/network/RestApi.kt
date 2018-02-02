@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.adapter.rxjava2.Result
 import retrofit2.http.*
 
 interface RestApi {
@@ -29,7 +30,7 @@ interface RestApi {
                           @Field("children") children: String = "0",
                           @Field("infants") infants: String = "0",
                           @Field("apikey") apikey: String = "ss630745725358065467897349852985"
-            ): Observable<ResponseBody>
+            ): Observable<retrofit2.Response<ResponseBody>>
 
     @FormUrlEncoded
     @POST("pricing/v1.0")

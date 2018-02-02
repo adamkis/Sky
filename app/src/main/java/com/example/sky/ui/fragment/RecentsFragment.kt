@@ -64,6 +64,18 @@ class RecentsFragment : BaseFragment() {
     }
 
     private fun pricingGetSession(){
+        callDisposable = restApi.pricingGetSession()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { showLoading(true) }
+                .doAfterTerminate { showLoading(false) }
+                .subscribe({
+                    response ->
+                        val location = response.headers().get("Location")
+                        Timber.d("SkyResponse_Location: " + location)
+                })
+    }
+    private fun pricingGetSession2(){
         val call: Call<ResponseBody> = restApi.pricingGetSession2()
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -72,7 +84,7 @@ class RecentsFragment : BaseFragment() {
                 // get header value
                 val location = response.headers().get("Location")
                 Timber.d("SkyResponse_Location: " + location)
-                pricingPollResults(location)
+                pricingPollResults2(location)
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -81,7 +93,7 @@ class RecentsFragment : BaseFragment() {
         })
     }
 
-    private fun pricingPollResults(location: String?){
+    private fun pricingPollResults2(location: String?){
         val call: Call<ResponseBody> = restApi.pricingPollResults2(location + "?apiKey=ss630745725358065467897349852985")
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -113,7 +125,7 @@ class RecentsFragment : BaseFragment() {
                 {response ->
 //                    this@RecentsFragment.photosResponse = photosResponse
 //                    setUpAdapter(recentsRecyclerView, photosResponse)
-                    Timber.d("Valasz: " + response.string())
+                    Timber.d("Valasz: " + response.toString())
 
                 },
                 {t ->
