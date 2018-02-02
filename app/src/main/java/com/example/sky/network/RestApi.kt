@@ -1,6 +1,7 @@
 package com.example.sky.network
 
 import android.net.Uri
+import com.example.sky.model.SearchResponse
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.http.*
@@ -24,6 +25,7 @@ interface RestApi {
     }
 
     // TODO: Add IP in header
+    // TODO get always next Monday
     @FormUrlEncoded
     @POST("pricing/v1.0")
     @Headers(
@@ -47,6 +49,6 @@ interface RestApi {
 
 
     @GET
-    fun pricingPollResults(@Url url: String): Observable<ResponseBody>
+    fun pricingPollResults(@Url url: String): Observable<SearchResponse>
 
 }

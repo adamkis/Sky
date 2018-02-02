@@ -1,15 +1,22 @@
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.example.sky.ui.fragment.SearchFragment">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_result_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="SEARCH FRAGMENT STUB"
-        android:gravity="center"
-        android:textSize="22sp"
         />
 
-</android.support.constraint.ConstraintLayout>
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:padding="0dp"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:indeterminate="true" />
+
+</android.support.design.widget.CoordinatorLayout>
