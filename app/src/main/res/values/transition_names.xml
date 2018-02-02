@@ -1,0 +1,4 @@
+<resources>
+    <string name="transition_recents_photo_image">transition_recents_photo_image</string>
+    <string name="transition_recents_photo_id">transition_recents_photo_id</string>
+</resources>

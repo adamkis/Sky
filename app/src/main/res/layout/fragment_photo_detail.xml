@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="ID:"
+            android:textSize="22sp"
+            />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/recents_photo_id"
+            android:layout_gravity="center"
+            android:transitionName="@string/transition_recents_photo_id"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="20dp"
+        android:background="#AAAAAA"
+        />
+
+    <include layout="@layout/info_row_photo_detail" android:id="@+id/info_row_1"/>
+    <include layout="@layout/info_row_photo_detail" android:id="@+id/info_row_2"/>
+    <include layout="@layout/info_row_photo_detail" android:id="@+id/info_row_3"/>
+    <include layout="@layout/info_row_photo_detail" android:id="@+id/info_row_4"/>
+    <include layout="@layout/info_row_photo_detail" android:id="@+id/info_row_5"/>
+    <include layout="@layout/info_row_photo_detail" android:id="@+id/info_row_6"/>
+
+</LinearLayout>
