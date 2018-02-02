@@ -15,11 +15,11 @@ class FormatInterceptorModule() {
     fun provideFormatInterceptor(): Interceptor {
         return Interceptor { chain ->
             var request = chain.request()
-            val url = request.url().newBuilder()
-                    .addQueryParameter("format", "json")
-                    .addQueryParameter("nojsoncallback", "1")
-                    .build()
-            request = request.newBuilder().url(url).build()
+//            val url = request.url().newBuilder()
+//                    .addQueryParameter("format", "json")
+//                    .addQueryParameter("nojsoncallback", "1")
+//                    .build()
+//            request = request.newBuilder().url(url).build()
             chain.proceed(request)
         }
     }

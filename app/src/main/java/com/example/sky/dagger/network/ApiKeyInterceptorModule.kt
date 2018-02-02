@@ -16,10 +16,10 @@ class ApiKeyInterceptorModule() {
     fun provideApiKeyInterceptor(): Interceptor {
         return Interceptor { chain ->
             var request = chain.request()
-            val url = request.url().newBuilder()
-                    .addQueryParameter("api_key", SecretKeys.FLICKR_KEY)
-                    .build()
-            request = request.newBuilder().url(url).build()
+//            val url = request.url().newBuilder()
+//                    .addQueryParameter("api_key", SecretKeys.FLICKR_KEY)
+//                    .build()
+//            request = request.newBuilder().url(url).build()
             chain.proceed(request)
         }
     }

@@ -7,7 +7,7 @@ import com.example.sky.dagger.glide.DaggerGlideComponent
 import com.example.sky.dagger.glide.GlideComponent
 import com.example.sky.dagger.glide.GlideModule
 import com.example.sky.dagger.network.*
-import com.example.sky.network.FLICKR_URL_BASE
+import com.example.sky.network.SKY_URL_BASE
 import com.squareup.leakcanary.LeakCanary
 import timber.log.Timber
 
@@ -44,7 +44,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        netComponent = createNetComponent(FLICKR_URL_BASE)
+        netComponent = createNetComponent(SKY_URL_BASE)
         glideComponent = createGlideComponent(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

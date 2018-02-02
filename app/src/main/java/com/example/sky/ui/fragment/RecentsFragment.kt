@@ -57,7 +57,7 @@ class RecentsFragment : BaseFragment() {
     }
 
     private fun downloadData(recentsRecyclerView: RecyclerView){
-        callDisposable = restApi.getRecentPhotos()
+        callDisposable = restApi.getSession()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { showLoading(true) }
