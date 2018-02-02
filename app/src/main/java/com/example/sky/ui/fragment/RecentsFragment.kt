@@ -69,10 +69,17 @@ class RecentsFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showLoading(true) }
                 .doAfterTerminate { showLoading(false) }
+                .map({
+                    response -> response.headers().get("Location")
+                })
+                .doOnNext {
+                    location ->
+                        Timber.d("SkyResponse_Location: " + location)
+                }
                 .subscribe({
                     response ->
-                        val location = response.headers().get("Location")
-                        Timber.d("SkyResponse_Location: " + location)
+                        val responseString = response.toString()
+                        Timber.d("SkyResponse_Subscribe: " + responseString)
                 })
     }
     private fun pricingGetSession2(){
