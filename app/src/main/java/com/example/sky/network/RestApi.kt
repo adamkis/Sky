@@ -54,8 +54,8 @@ interface RestApi {
             ): Call<ResponseBody>
 
 
-    @GET("pricing/v1.0")
-    fun pricingPollResults(@Url url: String): Observable<PhotosResponse>
+    @GET
+    fun pricingPollResults(@Url url: String): Observable<ResponseBody>
 
     @GET
     fun pricingPollResults2(@Url url: String): Call<ResponseBody>

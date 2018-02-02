@@ -65,22 +65,37 @@ class RecentsFragment : BaseFragment() {
 
     private fun pricingGetSession(){
         callDisposable = restApi.pricingGetSession()
+                .map({
+                    response -> response.headers().get("Location")
+                })
+                .flatMap {
+                    location ->
+                        Timber.d("SkyResponse_Location: " + location)
+                        return@flatMap restApi.pricingPollResults(location + "?apiKey=ss630745725358065467897349852985")
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showLoading(true) }
                 .doAfterTerminate { showLoading(false) }
-                .map({
-                    response -> response.headers().get("Location")
-                })
-                .doOnNext {
-                    location ->
-                        Timber.d("SkyResponse_Location: " + location)
-                }
-                .subscribe({
-                    response ->
+                .subscribe(
+                    { response ->
                         val responseString = response.toString()
                         Timber.d("SkyResponse_Subscribe: " + responseString)
-                })
+                    },
+                    {t ->
+                        when(t){
+                            is UnknownHostException -> {
+                                showError(getString(R.string.network_error))
+                            }
+                            is NullPointerException -> {
+                                showError(getString(R.string.could_not_load_data))
+                            }
+                            else -> {
+                                showError(getString(R.string.error))
+                            }
+                        }
+                    }
+                )
     }
     private fun pricingGetSession2(){
         val call: Call<ResponseBody> = restApi.pricingGetSession2()
