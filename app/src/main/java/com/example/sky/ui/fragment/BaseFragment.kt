@@ -14,10 +14,10 @@ import com.example.sky.R
 import com.example.sky.helper.FilePersistenceHelper
 import com.example.sky.helper.TransitionHelper
 import com.example.sky.model.Photo
-import com.example.sky.network.getStackTrace
 import com.example.sky.ui.activity.PhotoDetailActivity
 import timber.log.Timber
 import android.support.design.widget.Snackbar
+import com.example.sky.helper.getStackTrace
 
 
 abstract class BaseFragment : Fragment(){

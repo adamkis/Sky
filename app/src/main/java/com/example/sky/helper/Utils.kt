@@ -1,13 +1,13 @@
-package com.example.sky.network
+package com.example.sky.helper
 
-
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import android.util.Log
 import java.io.PrintWriter
 import java.io.StringWriter
 
-val SKY_URL_BASE = "http://partners.api.skyscanner.net/apiservices/"
+/**
+ * Created by adam on 2018. 02. 02..
+ */
+
 
 fun getStackTrace(throwable: Throwable): String {
     val sw = StringWriter()

@@ -2,16 +2,15 @@ package com.example.sky
 
 import android.content.Intent
 import android.support.test.InstrumentationRegistry
-import android.support.test.rule.ActivityTestRule
-import com.example.sky.ui.activity.MainActivity
-
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withText
-import com.example.sky.dagger.*
+import android.support.test.rule.ActivityTestRule
+import com.example.sky.dagger.MockOkHttpModule
 import com.example.sky.dagger.network.*
-import com.example.sky.network.SKY_URL_BASE
+import com.example.sky.network.RestApi
+import com.example.sky.ui.activity.MainActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -33,7 +32,7 @@ class MainActivityMockDaggerRestClientTest {
                 .gsonConverterFactoryModule(GsonConverterFactoryModule())
                 .loggingInterceptorModule(LoggingInterceptorModule())
                 .restApiModule(RestApiModule())
-                .retrofitModule(RetrofitModule(SKY_URL_BASE))
+                .retrofitModule(RetrofitModule(RestApi.SKY_URL_BASE))
                 .build()
         app.setNetComponent(mockNetComponent)
         activityRule.launchActivity(Intent())

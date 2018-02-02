@@ -1,10 +1,8 @@
 package com.example.sky.network
 
 import android.net.Uri
-import com.example.sky.helper.SecretKeys
 import io.reactivex.Observable
 import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.http.*
 
 
@@ -12,6 +10,7 @@ interface RestApi {
 
     companion object {
 
+        val SKY_URL_BASE = "http://partners.api.skyscanner.net/apiservices/"
         val SKY_API_KEY: String = "ss630745725358065467897349852985"
 
         fun addApiKey(@Url urlString: String): String{
