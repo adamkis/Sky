@@ -14,6 +14,7 @@ import com.example.sky.App
 import com.example.sky.R
 import com.example.sky.model.PhotosResponse
 import com.example.sky.network.RestApi
+import com.example.sky.network.getStackTrace
 import com.example.sky.ui.adapter.RecentsAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -21,10 +22,6 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.net.UnknownHostException
 import javax.inject.Inject
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class RecentsFragment : BaseFragment() {
@@ -69,7 +66,7 @@ class RecentsFragment : BaseFragment() {
                 response -> response.headers().get("Location")
             }
             .flatMap {
-                location -> restApi.pricingPollResults(location + "?apiKey=ss630745725358065467897349852985")
+                location -> restApi.pricingPollResults(RestApi.addApiKey(location))
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -79,38 +76,8 @@ class RecentsFragment : BaseFragment() {
                 { response ->
                     val responseString = response.toString()
                     Timber.d("SkyResponse_Subscribe: " + responseString)
-                },
-                {t ->
-                    when(t){
-                        is UnknownHostException -> {
-                            showError(getString(R.string.network_error))
-                        }
-                        is NullPointerException -> {
-                            showError(getString(R.string.could_not_load_data))
-                        }
-                        else -> {
-                            showError(getString(R.string.error))
-                        }
-                    }
-                }
-            )
-    }
-
-    private fun downloadData(){
-        callDisposable = restApi.pricingGetSession()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { showLoading(true) }
-            .doAfterTerminate { showLoading(false) }
-//            .flatMap(photosResponse -> response.getItems())
-
-
-            .subscribe(
-                {response ->
 //                    this@RecentsFragment.photosResponse = photosResponse
 //                    setUpAdapter(recentsRecyclerView, photosResponse)
-                    Timber.d("Valasz: " + response.toString())
-
                 },
                 {t ->
                     when(t){
@@ -124,6 +91,7 @@ class RecentsFragment : BaseFragment() {
                             showError(getString(R.string.error))
                         }
                     }
+                    Timber.d(getStackTrace(t))
                 }
             )
     }
