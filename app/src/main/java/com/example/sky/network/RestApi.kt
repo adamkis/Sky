@@ -9,6 +9,7 @@ import retrofit2.http.*
 
 interface RestApi {
 
+    // TODO: Add IP in header
     @FormUrlEncoded
     @POST("pricing/v1.0")
     @Headers(
@@ -54,6 +55,9 @@ interface RestApi {
 
     @GET("pricing/v1.0")
     fun pricingPollResults(@Url url: String): Observable<PhotosResponse>
+
+    @GET
+    fun pricingPollResults2(@Url url: String): Call<ResponseBody>
 
 
 }

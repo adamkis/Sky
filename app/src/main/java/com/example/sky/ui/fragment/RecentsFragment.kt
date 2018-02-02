@@ -59,11 +59,11 @@ class RecentsFragment : BaseFragment() {
         }
         else{
 //            downloadData(recentsRecyclerView)
-            downloadSky()
+            pricingGetSession()
         }
     }
 
-    private fun downloadSky(){
+    private fun pricingGetSession(){
         val call: Call<ResponseBody> = restApi.pricingGetSession2()
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -71,7 +71,27 @@ class RecentsFragment : BaseFragment() {
                 val headers = response.headers()
                 // get header value
                 val location = response.headers().get("Location")
-                Timber.d("Valasz_Location: " + location)
+                Timber.d("SkyResponse_Location: " + location)
+                pricingPollResults(location)
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                // Empty now
+            }
+        })
+    }
+
+    private fun pricingPollResults(location: String?){
+        val call: Call<ResponseBody> = restApi.pricingPollResults2(location + "?apiKey=ss630745725358065467897349852985")
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                // get headers
+                val headers = response.headers()
+                // get header value
+                val location = response.headers().get("Location")
+
+                Timber.d("SkyResponse_responseBody: " + response.body()?.string())
+
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
