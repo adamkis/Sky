@@ -1,7 +1,7 @@
 package com.example.sky.dagger.glide
 
 import android.support.v7.widget.RecyclerView
-import com.example.sky.ui.adapter.RecentsAdapter
+import com.example.sky.ui.adapter.SearchResultAdapter
 import dagger.Component
 import javax.inject.Singleton
 
@@ -11,5 +11,5 @@ import javax.inject.Singleton
         GlideModule::class))
 interface GlideComponent {
     fun inject(viewHolder: RecyclerView.ViewHolder)
-    fun inject(recentsAdapter: RecentsAdapter)
+    fun inject(recentsAdapter: SearchResultAdapter)
 }

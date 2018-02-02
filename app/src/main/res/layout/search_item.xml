@@ -20,12 +20,13 @@
         >
 
         <ImageView
-            android:id="@+id/recents_image"
+            android:id="@+id/carrier_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
+            android:src="@mipmap/ic_launcher"
             android:layout_marginBottom="10dp"
             android:scaleType="centerCrop" />
 
@@ -38,7 +39,7 @@
             android:layout_marginRight="10dp"
             >
             <TextView
-                android:id="@+id/recents_photo_title"
+                android:id="@+id/outbound_leg_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="3"
@@ -46,7 +47,7 @@
                 android:textSize="20sp"
                 />
             <TextView
-                android:id="@+id/recents_photo_id"
+                android:id="@+id/inbound_leg_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

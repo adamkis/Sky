@@ -15,7 +15,7 @@ import com.example.sky.R
 import com.example.sky.helper.getStackTrace
 import com.example.sky.model.SearchResponse
 import com.example.sky.network.RestApi
-import com.example.sky.ui.adapter.RecentsAdapter
+import com.example.sky.ui.adapter.SearchResultAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -48,7 +48,7 @@ class SearchFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpLoadingAndError(view.findViewById(R.id.loading), view as CoordinatorLayout)
-        val searchResultRV: RecyclerView = view.findViewById<RecyclerView>(R.id.search_result_recycler_view)
+        val searchResultRV: RecyclerView = view.findViewById(R.id.search_result_recycler_view)
         searchResponse = savedInstanceState?.getParcelable(SEARCH_RESPONSE_KEY)
         if(searchResponse != null){
             setUpAdapter(searchResultRV, searchResponse!!)
@@ -94,13 +94,13 @@ class SearchFragment : BaseFragment() {
             )
     }
 
-    private fun setUpAdapter(recentsRecyclerView: RecyclerView, searchResponse: SearchResponse){
-//        recentsRecyclerView.layoutManager = LinearLayoutManager(this@SearchFragment.activity, LinearLayout.VERTICAL, false)
-//        recentsRecyclerView.adapter = RecentsAdapter(searchResponse.photos!!, activity as Context)
-//        clickDisposable = (recentsRecyclerView.adapter as RecentsAdapter).clickEvent
-//                .subscribe({
-//                    startDetailActivityWithTransition(activity as Activity, it.second.findViewById(R.id.recents_image), it.second.findViewById(R.id.recents_photo_id), it.first)
-//                })
+    private fun setUpAdapter(searchResultRV: RecyclerView, searchResponse: SearchResponse){
+        searchResultRV.layoutManager = LinearLayoutManager(this@SearchFragment.activity, LinearLayout.VERTICAL, false)
+        searchResultRV.adapter = SearchResultAdapter(searchResponse.Itineraries!!, activity as Context)
+        clickDisposable = (searchResultRV.adapter as SearchResultAdapter).clickEvent
+                .subscribe({
+                    startDetailActivityWithTransition(activity as Activity, it.second.findViewById(R.id.carrier_image), it.second.findViewById(R.id.recents_photo_id), it.first)
+                })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
