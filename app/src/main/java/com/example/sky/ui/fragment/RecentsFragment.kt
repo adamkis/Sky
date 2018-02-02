@@ -18,8 +18,14 @@ import com.example.sky.ui.adapter.RecentsAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.net.UnknownHostException
 import javax.inject.Inject
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 class RecentsFragment : BaseFragment() {
 
@@ -52,20 +58,43 @@ class RecentsFragment : BaseFragment() {
             showLoading(false)
         }
         else{
-            downloadData(recentsRecyclerView)
+//            downloadData(recentsRecyclerView)
+            downloadSky()
         }
     }
 
-    private fun downloadData(recentsRecyclerView: RecyclerView){
-        callDisposable = restApi.getSession()
+    private fun downloadSky(){
+        val call: Call<ResponseBody> = restApi.pricingGetSession2()
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                // get headers
+                val headers = response.headers()
+                // get header value
+                val location = response.headers().get("Location")
+                Timber.d("Valasz_Location: " + location)
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                // TODO
+            }
+        })
+    }
+
+    private fun downloadData(){
+        callDisposable = restApi.pricingGetSession()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { showLoading(true) }
             .doAfterTerminate { showLoading(false) }
+//            .flatMap(photosResponse -> response.getItems())
+
+
             .subscribe(
-                {photosResponse ->
-                    this@RecentsFragment.photosResponse = photosResponse
-                    setUpAdapter(recentsRecyclerView, photosResponse)
+                {response ->
+//                    this@RecentsFragment.photosResponse = photosResponse
+//                    setUpAdapter(recentsRecyclerView, photosResponse)
+                    Timber.d("Valasz: " + response.string())
+
                 },
                 {t ->
                     when(t){
