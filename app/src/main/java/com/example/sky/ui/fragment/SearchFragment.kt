@@ -95,8 +95,8 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun setUpAdapter(searchResultRV: RecyclerView, searchResponse: SearchResponse){
-        searchResultRV.layoutManager = LinearLayoutManager(this@SearchFragment.activity, LinearLayout.VERTICAL, false)
-        searchResultRV.adapter = SearchResultAdapter(searchResponse.Itineraries!!, activity as Context)
+        searchResultRV.layoutManager = LinearLayoutManager(activity as Context, LinearLayout.VERTICAL, false)
+        searchResultRV.adapter = SearchResultAdapter(searchResponse, activity as Context)
         clickDisposable = (searchResultRV.adapter as SearchResultAdapter).clickEvent
                 .subscribe({
                     startDetailActivityWithTransition(activity as Activity, it.second.findViewById(R.id.carrier_image), it.second.findViewById(R.id.recents_photo_id), it.first)

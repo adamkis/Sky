@@ -9,5 +9,6 @@ import kotlinx.android.parcel.Parcelize
 data class SearchResponse(
         var SessionKey: String? = null,
         var Status: String? = null,
-        var Itineraries: Array<Itinerary>? = null
+        var Itineraries: Array<Itinerary>? = null,
+        var Legs: Array<Leg>? = null
     ) : Parcelable

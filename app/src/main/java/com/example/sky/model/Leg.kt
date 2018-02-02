@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class Photos(var total: String? = null, var page: String? = null, var pages: String? = null, var photo: Array<Photo>? = null, var perpage: String? = null) : Parcelable
+data class Leg(
+        var Id: String? = null,
+        var Departure: String? = null,
+        var Arrival: String? = null
+    ) : Parcelable
