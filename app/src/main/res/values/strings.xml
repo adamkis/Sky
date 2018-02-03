@@ -10,4 +10,6 @@
     <string name="search_result_count">%1$d of %2$d results</string>
     <string name="sort_and_filters">SORT &amp; FILTERS</string>
     <string name="direct">Direct</string>
+    <string name="leg_detail">%1$s-%2$s, %3$s</string>
+    <string name="search_title_places">%1$s - %2$s</string>
 </resources>

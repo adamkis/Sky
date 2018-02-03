@@ -9,10 +9,7 @@ import android.widget.TextView
 import com.bumptech.glide.RequestManager
 import com.example.sky.App
 import com.example.sky.R
-import com.example.sky.helper.buildFaviconUrl
-import com.example.sky.helper.formatMinutesToHoursMinutes
-import com.example.sky.helper.getStopsCount
-import com.example.sky.helper.getTimeFromDateTimeString
+import com.example.sky.helper.*
 import com.example.sky.model.*
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -89,16 +86,16 @@ class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: 
 
             val outBoundRow = view.findViewById<View>(R.id.info_row_1)
             outBoundRow.findViewById<TextView>(R.id.leg_departure_arrival_time).text = outBoundDepartureArrival
-            outBoundRow.findViewById<TextView>(R.id.leg_details).text = outBoundLegOrigin?.Code + "-" + outBoundLegDestination?.Code + ", " + outBoundCarrier?.Name
+            outBoundRow.findViewById<TextView>(R.id.leg_details).text = context.getString(R.string.leg_detail, outBoundLegOrigin?.Code, outBoundLegDestination?.Code, outBoundCarrier?.Name)
             outBoundRow.findViewById<TextView>(R.id.leg_stops).text = getStopsCount(outBoundLeg, context)
             outBoundRow.findViewById<TextView>(R.id.leg_duration).text = formatMinutesToHoursMinutes(outBoundLeg?.Duration)
             buildFaviconUrl(outBoundCarrier).let { glideReqManager.load(it).into(outBoundRow.findViewById(R.id.carrier_image)) }
 
             val inBoundRow = view.findViewById<View>(R.id.info_row_2)
             inBoundRow.findViewById<TextView>(R.id.leg_departure_arrival_time).text = inBoundDepartureArrival
-            inBoundRow.findViewById<TextView>(R.id.leg_details).text = inBoundLegOrigin?.Code + "-" + inBoundLegDestination?.Code + ", " + inBoundCarrier?.Name
-            inBoundRow.findViewById<TextView>(R.id.leg_stops).text = getStopsCount(outBoundLeg, context)
-            inBoundRow.findViewById<TextView>(R.id.leg_duration).text = formatMinutesToHoursMinutes(outBoundLeg?.Duration)
+            inBoundRow.findViewById<TextView>(R.id.leg_details).text = context.getString(R.string.leg_detail, inBoundLegOrigin?.Code, inBoundLegDestination?.Code, inBoundCarrier?.Name)
+            inBoundRow.findViewById<TextView>(R.id.leg_stops).text = getStopsCount(inBoundLeg, context)
+            inBoundRow.findViewById<TextView>(R.id.leg_duration).text = formatMinutesToHoursMinutes(inBoundLeg?.Duration)
             buildFaviconUrl(inBoundCarrier).let { glideReqManager.load(it).into(inBoundRow.findViewById(R.id.carrier_image)) }
 
         }

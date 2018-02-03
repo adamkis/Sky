@@ -22,6 +22,10 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        
+        var searchDetails = getSearchDetails()
+        origin_and_destination.text = getString(R.string.search_title_places, searchDetails.originplace, searchDetails.destinationplace)
+
         replaceFragment(
             if(savedInstanceState != null) supportFragmentManager.getFragment(savedInstanceState, ACTIVE_FRAGMENT_KEY)
             else SearchFragment.newInstance(getSearchDetails())
