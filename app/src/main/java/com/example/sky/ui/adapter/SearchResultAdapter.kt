@@ -9,6 +9,8 @@ import android.widget.TextView
 import com.bumptech.glide.RequestManager
 import com.example.sky.App
 import com.example.sky.R
+import com.example.sky.helper.formatMinutesToHoursMinutes
+import com.example.sky.helper.getStopsCount
 import com.example.sky.helper.getTimeFromDateTimeString
 import com.example.sky.model.*
 import io.reactivex.Observable
@@ -75,13 +77,17 @@ class SearchResultAdapter(val searchResponse: SearchResponse, val context: Conte
             val inBoundDepartureArrival = getTimeFromDateTimeString( inBoundLeg?.Departure ?: "") + " - " +
                     getTimeFromDateTimeString(inBoundLeg?.Arrival ?: "")
 
-            val row1 = view.findViewById<View>(R.id.info_row_1)
-            row1.findViewById<TextView>(R.id.leg_departure_arrival_time).text = outBoundDepartureArrival
-            row1.findViewById<TextView>(R.id.leg_details).text = outBoundLegOrigin?.Code + "-" + outBoundLegDestination?.Code + ", " + outBoundCarrier?.Name
+            val outBoundRow = view.findViewById<View>(R.id.info_row_1)
+            outBoundRow.findViewById<TextView>(R.id.leg_departure_arrival_time).text = outBoundDepartureArrival
+            outBoundRow.findViewById<TextView>(R.id.leg_details).text = outBoundLegOrigin?.Code + "-" + outBoundLegDestination?.Code + ", " + outBoundCarrier?.Name
+            outBoundRow.findViewById<TextView>(R.id.leg_stops).text = getStopsCount(outBoundLeg, context)
+            outBoundRow.findViewById<TextView>(R.id.leg_duration).text = formatMinutesToHoursMinutes(outBoundLeg?.Duration)
 
-            val row2 = view.findViewById<View>(R.id.info_row_2)
-            row2.findViewById<TextView>(R.id.leg_departure_arrival_time).text = inBoundDepartureArrival
-            row2.findViewById<TextView>(R.id.leg_details).text = inBoundLegOrigin?.Code + "-" + inBoundLegDestination?.Code + ", " + inBoundCarrier?.Name
+            val inBoundRow = view.findViewById<View>(R.id.info_row_2)
+            inBoundRow.findViewById<TextView>(R.id.leg_departure_arrival_time).text = inBoundDepartureArrival
+            inBoundRow.findViewById<TextView>(R.id.leg_details).text = inBoundLegOrigin?.Code + "-" + inBoundLegDestination?.Code + ", " + inBoundCarrier?.Name
+            inBoundRow.findViewById<TextView>(R.id.leg_stops).text = getStopsCount(outBoundLeg, context)
+            inBoundRow.findViewById<TextView>(R.id.leg_duration).text = formatMinutesToHoursMinutes(outBoundLeg?.Duration)
 
         }
 
