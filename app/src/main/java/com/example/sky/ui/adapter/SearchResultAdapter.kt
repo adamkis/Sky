@@ -22,8 +22,6 @@ import javax.inject.Inject
 class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: SearchResponse, val context: Context) : RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
 
     @Inject lateinit var glideReqManager: RequestManager
-    private val clickSubject = PublishSubject.create<Pair<Photo, View>>()
-    val clickEvent: Observable<Pair<Photo, View>> = clickSubject
 
     private val legsMap: HashMap<String, Leg> = HashMap()
     private val placesMap: HashMap<String, Place> = HashMap()
@@ -65,12 +63,6 @@ class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: 
     override fun getItemCount(): Int = searchResponse.Itineraries!!.size
 
     inner class SearchResultViewHolder(val glideReqManager: RequestManager, val view: View, val context: Context) : RecyclerView.ViewHolder(view){
-
-        init {
-//            itemView.setOnClickListener {
-//                clickSubject.onNext(Pair<Photo, View>(itineraries.photo!!.get(layoutPosition), view))
-//            }
-        }
 
         fun bind(itinerary: Itinerary?){
 

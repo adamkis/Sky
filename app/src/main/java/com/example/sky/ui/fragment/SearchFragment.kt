@@ -30,7 +30,6 @@ import javax.inject.Inject
 class SearchFragment : BaseFragment() {
 
     @Inject lateinit var restApi: RestApi
-    private var clickDisposable: Disposable? = null
     private var callDisposable: Disposable? = null
     private var searchResponse: SearchResponse? = null
     private val SEARCH_RESPONSE_KEY = "SEARCH_RESPONSE_KEY"
@@ -134,10 +133,6 @@ class SearchFragment : BaseFragment() {
     private fun setUpAdapter(searchResultRV: RecyclerView, searchDetails: SearchDetails, searchResponse: SearchResponse){
         searchResultRV.layoutManager = LinearLayoutManager(activity as Context, LinearLayout.VERTICAL, false)
         searchResultRV.adapter = SearchResultAdapter(searchDetails, searchResponse, activity as Context)
-        clickDisposable = (searchResultRV.adapter as SearchResultAdapter).clickEvent
-                .subscribe({
-                    startDetailActivityWithTransition(activity as Activity, it.second.findViewById(R.id.carrier_image), it.second.findViewById(R.id.recents_photo_id), it.first)
-                })
     }
     private fun updateHeader(searchResponse: SearchResponse){
         search_result_count.text = getString(R.string.search_result_count, searchResponse?.Itineraries?.size, searchResponse?.Itineraries?.size)
@@ -151,7 +146,6 @@ class SearchFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        clickDisposable?.dispose()
         callDisposable?.dispose()
     }
 
