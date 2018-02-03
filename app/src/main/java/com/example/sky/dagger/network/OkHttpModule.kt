@@ -1,8 +1,10 @@
 package com.example.sky.dagger.network
 
+import android.app.Application
 import com.example.sky.BuildConfig
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,8 +17,15 @@ import javax.inject.Named
 class OkHttpModule() {
     @Provides
     @Singleton
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor, @Named("format") formatInterceptor: Interceptor, @Named("apiKey") apiKeyInterceptor: Interceptor): OkHttpClient {
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor,
+                            @Named("format") formatInterceptor: Interceptor,
+                            @Named("apiKey") apiKeyInterceptor: Interceptor,
+                            application: Application
+        ): OkHttpClient {
+        val cacheSize: Long = 10 * 1024 * 1024 // 10 MB
+        val cache = Cache(application.cacheDir, cacheSize)
         var builder = OkHttpClient.Builder()
+                .cache(cache)
                 .addInterceptor(formatInterceptor)
                 .addInterceptor(apiKeyInterceptor)
         if (BuildConfig.DEBUG){

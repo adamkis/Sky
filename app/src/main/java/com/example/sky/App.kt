@@ -33,6 +33,7 @@ class App : Application() {
                 .loggingInterceptorModule(LoggingInterceptorModule())
                 .restApiModule(RestApiModule())
                 .retrofitModule(RetrofitModule(baseUrl))
+                .appModule(AppModule(this))
                 .build()
     }
 
@@ -51,9 +52,9 @@ class App : Application() {
         }
         Timber.tag("Sky")
         if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
+            return
         }
-        LeakCanary.install(this);
+        LeakCanary.install(this)
     }
 
 }

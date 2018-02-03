@@ -14,6 +14,7 @@ import javax.inject.Singleton
         GsonConverterFactoryModule::class,
         LoggingInterceptorModule::class,
         RestApiModule::class,
+        AppModule::class,
         RetrofitModule::class))
 interface NetComponent {
     fun inject(mainActivity: MainActivity)
