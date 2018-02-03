@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.sky.R
 import com.example.sky.model.Carrier
 import com.example.sky.model.Leg
+import com.example.sky.model.SearchDetails
 
 fun getStopsCount(leg: Leg?, context: Context): String? {
     if (leg?.Stops?.isNotEmpty() == true){
@@ -21,3 +22,14 @@ fun formatMinutesToHoursMinutes(minutes: String?): String? {
 fun buildFaviconUrl(carrier: Carrier?): String {
     carrier?.Code.let { return "https://logos.skyscnr.com/images/airlines/favicon/$it.png" }
 }
+
+fun formatSearchDetails(searchDetails: SearchDetails?, context: Context): String? {
+    val outDayMonth = getDayMonth(searchDetails?.outbounddate)
+    val inDayMonth = getDayMonth(searchDetails?.inbounddate)
+    val adultsCount: Int = searchDetails?.adults?.toInt() ?: 0
+    val passengers = context.resources.getQuantityString(R.plurals.number_of_adults, adultsCount, adultsCount)
+    val cabinClass = searchDetails?.cabinclass
+    return context.getString(R.string.search_title_details, outDayMonth, inDayMonth, passengers, cabinClass)
+}
+
+

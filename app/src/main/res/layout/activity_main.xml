@@ -11,7 +11,6 @@
         android:layout_height="@dimen/height_xl"
         android:minHeight="@dimen/height_xl"
         android:layout_width="match_parent"
-        android:gravity="top"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -23,14 +22,16 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/origin_and_destination"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
+                android:id="@+id/search_title_places"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Else"/>
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/search_title_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"/>
 
         </LinearLayout>
 

@@ -12,4 +12,9 @@
     <string name="direct">Direct</string>
     <string name="leg_detail">%1$s-%2$s, %3$s</string>
     <string name="search_title_places">%1$s - %2$s</string>
+    <string name="search_title_details">%1$s - %2$s, %3$s, %4$s</string>
+    <plurals name="number_of_adults">
+        <item quantity="one">%d adult</item>
+        <item quantity="other">%d adults</item>
+    </plurals>
 </resources>

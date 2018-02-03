@@ -1,5 +1,6 @@
 package com.example.sky.helper
 
+import com.example.sky.model.SearchDetails
 import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -12,10 +13,23 @@ fun getTimeFromDateTimeString(dateTime: String): String? {
     var timeString: String? = null
     try {
         date = dateTimeFormat.parse(dateTime)
-        Timber.d("")
         timeString = hoursMinutesFormat.format(date)
     } catch (e: ParseException) {
-        e.printStackTrace()
+        Timber.d(e)
     }
     return timeString
+}
+
+fun getDayMonth(dateString: String?): String? {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val dayMonthFormat = SimpleDateFormat("dd MMM")
+    val date: Date?
+    var dayMonthString: String? = null
+    try {
+        date = dateFormat.parse(dateString)
+        dayMonthString = dayMonthFormat.format(date)
+    } catch (e: ParseException) {
+        Timber.d(e)
+    }
+    return dayMonthString
 }
