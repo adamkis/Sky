@@ -3,12 +3,11 @@ package com.example.sky.ui.activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import android.view.Menu
 import com.example.sky.R
+import com.example.sky.model.SearchDetails
 import com.example.sky.ui.fragment.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import android.support.v4.view.MenuItemCompat
-import android.view.Menu
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         replaceFragment(
             if(savedInstanceState != null) supportFragmentManager.getFragment(savedInstanceState, ACTIVE_FRAGMENT_KEY)
-            else SearchFragment.newInstance()
+            else SearchFragment.newInstance(getSearchDetails())
         )
     }
 
@@ -42,6 +41,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    public fun getSearchDetails(): SearchDetails {
+        return SearchDetails(
+                cabinclass = "Economy",
+                country = "uk",
+                currency = "GBP",
+                locale = "en-GB",
+                locationSchema = "iata",
+                originplace = "EDI",
+                destinationplace = "LHR",
+                outbounddate = "2018-05-30",
+                inbounddate = "2018-06-02",
+                adults = "1"
+        )
     }
 
 }

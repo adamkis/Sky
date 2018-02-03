@@ -1,6 +1,5 @@
 package com.example.sky.ui.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
@@ -32,11 +31,16 @@ class SearchFragment : BaseFragment() {
     @Inject lateinit var restApi: RestApi
     private var callDisposable: Disposable? = null
     private var searchResponse: SearchResponse? = null
-    private val SEARCH_RESPONSE_KEY = "SEARCH_RESPONSE_KEY"
+    private var searchDetails: SearchDetails? = null
 
     companion object {
-        fun newInstance(): SearchFragment {
+        private val SEARCH_RESPONSE_KEY = "SEARCH_RESPONSE_KEY"
+        private val SEARCH_DETAILS_KEY = "SEARCH_DETAILS_KEY"
+        fun newInstance(searchDetails: SearchDetails): SearchFragment {
             val fragment = SearchFragment()
+            val args = Bundle()
+            args.putParcelable(SEARCH_DETAILS_KEY, searchDetails)
+            fragment.arguments = args
             return fragment
         }
     }
@@ -51,14 +55,19 @@ class SearchFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpLoadingAndError(view.findViewById(R.id.loading), view as CoordinatorLayout)
         val searchResultRV: RecyclerView = view.findViewById(R.id.search_result_recycler_view)
-        searchResponse = savedInstanceState?.getParcelable(SEARCH_RESPONSE_KEY)
+        if (arguments != null) {
+            searchDetails = arguments!!.getParcelable(SEARCH_DETAILS_KEY)
+        }
+        if( savedInstanceState != null ){
+            searchResponse = savedInstanceState?.getParcelable(SEARCH_RESPONSE_KEY)
+            searchDetails = savedInstanceState?.getParcelable(SEARCH_DETAILS_KEY)
+        }
         if(searchResponse != null){
-            // TODO save searchDetails in instanceState
-            setUpAdapter(searchResultRV, getSearchDetails(), searchResponse!!)
+            setUpAdapter(searchResultRV, searchDetails!!, searchResponse!!)
             showLoading(false)
         }
         else{
-            pricingGetSession(searchResultRV, getSearchDetails())
+            pricingGetSession(searchResultRV, searchDetails!!)
         }
     }
 
@@ -114,22 +123,6 @@ class SearchFragment : BaseFragment() {
             )
     }
 
-    // TODO: pass as intent
-    public fun getSearchDetails(): SearchDetails{
-        return SearchDetails(
-            cabinclass = "Economy",
-            country = "uk",
-            currency = "GBP",
-            locale = "en-GB",
-            locationSchema = "iata",
-            originplace = "EDI",
-            destinationplace = "LHR",
-            outbounddate = "2018-05-30",
-            inbounddate = "2018-06-02",
-            adults = "1"
-        )
-    }
-
     private fun setUpAdapter(searchResultRV: RecyclerView, searchDetails: SearchDetails, searchResponse: SearchResponse){
         searchResultRV.layoutManager = LinearLayoutManager(activity as Context, LinearLayout.VERTICAL, false)
         searchResultRV.adapter = SearchResultAdapter(searchDetails, searchResponse, activity as Context)
@@ -142,6 +135,7 @@ class SearchFragment : BaseFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(SEARCH_RESPONSE_KEY, searchResponse)
+        outState.putParcelable(SEARCH_DETAILS_KEY, searchDetails)
     }
 
     override fun onDestroy() {

@@ -11,7 +11,6 @@
         android:layout_height="@dimen/height_xl"
         android:minHeight="@dimen/height_xl"
         android:layout_width="match_parent"
-        app:title=""
         android:gravity="top"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
