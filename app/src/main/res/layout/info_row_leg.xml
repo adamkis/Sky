@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/padding_l"
+    android:paddingRight="@dimen/padding_l"
+    android:paddingTop="@dimen/padding_m"
+    android:paddingBottom="@dimen/padding_m">
+
+
+    <ImageView
+        android:id="@+id/carrier_image"
+        android:layout_width="@dimen/height_m"
+        android:layout_height="@dimen/height_m"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_vertical"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_m"
+        android:layout_gravity="center_vertical">
+
+
+        <TextView
+            android:id="@+id/leg_departure_arrival_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_l"/>
+
+
+        <TextView
+            android:id="@+id/leg_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_m"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+
+
+        <TextView
+            android:id="@+id/leg_stops"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_l"/>
+
+
+        <TextView
+            android:id="@+id/leg_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_m"/>
+
+    </LinearLayout>
+
+</LinearLayout>

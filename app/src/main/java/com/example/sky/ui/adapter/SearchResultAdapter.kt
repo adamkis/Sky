@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.bumptech.glide.RequestManager
 import com.example.sky.App
 import com.example.sky.R
@@ -44,7 +45,7 @@ class SearchResultAdapter(val searchResponse: SearchResponse, val context: Conte
 
     override fun getItemCount(): Int = searchResponse.Itineraries!!.size
 
-    inner class SearchResultViewHolder(val glideReqManager: RequestManager, view: View, val context: Context) : RecyclerView.ViewHolder(view){
+    inner class SearchResultViewHolder(val glideReqManager: RequestManager, val view: View, val context: Context) : RecyclerView.ViewHolder(view){
 
         init {
 //            itemView.setOnClickListener {
@@ -53,9 +54,18 @@ class SearchResultAdapter(val searchResponse: SearchResponse, val context: Conte
         }
 
         fun bind(itinerary: Itinerary?){
-            itemView.departure_time.text = getTimeFromDateTimeString( legsMap.get(itinerary?.OutboundLegId)?.Departure ?: "")
-            itemView.arrival_time.text = getTimeFromDateTimeString(legsMap.get(itinerary?.OutboundLegId)?.Arrival ?: "")
 //            glideReqManager.load(photo?.getUrl()).into(itemView.findViewById(R.id.carrier_image)
+
+            val outBoundDepartureArrival = getTimeFromDateTimeString( legsMap.get(itinerary?.OutboundLegId)?.Departure ?: "") + " - " +
+                    getTimeFromDateTimeString(legsMap.get(itinerary?.OutboundLegId)?.Arrival ?: "")
+            val inBoundDepartureArrival = getTimeFromDateTimeString( legsMap.get(itinerary?.InboundLegId)?.Departure ?: "") + " - " +
+                    getTimeFromDateTimeString(legsMap.get(itinerary?.InboundLegId)?.Arrival ?: "")
+
+            val row1 = view.findViewById<View>(R.id.info_row_1)
+            val row2 = view.findViewById<View>(R.id.info_row_2)
+            row1.findViewById<TextView>(R.id.leg_departure_arrival_time).text = outBoundDepartureArrival
+            row2.findViewById<TextView>(R.id.leg_departure_arrival_time).text = inBoundDepartureArrival
+
         }
 
     }

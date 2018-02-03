@@ -20,6 +20,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_search.*
+import retrofit2.HttpException
 import timber.log.Timber
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -87,10 +88,15 @@ class SearchFragment : BaseFragment() {
                         is NullPointerException -> {
                             showError(getString(R.string.could_not_load_data))
                         }
+                        is HttpException -> {
+                            showError(getString(R.string.http_error))
+                        }
                         else -> {
                             showError(getString(R.string.error))
                         }
                     }
+                    // TODO: retrofit2.adapter.rxjava2.httpexception: http 304 not modified
+                    Timber.d("Loading Error")
                     Timber.d(getStackTrace(t))
                 }
             )
