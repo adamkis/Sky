@@ -18,6 +18,8 @@ interface RestApi {
             val builtUri: Uri = Uri.parse(urlString)
                     .buildUpon()
                     .appendQueryParameter("apiKey", SKY_API_KEY)
+                    // TODO: Put it into a place where it fits better
+                    .appendQueryParameter("stops", "0")
                     .build()
             return builtUri.toString()
         }

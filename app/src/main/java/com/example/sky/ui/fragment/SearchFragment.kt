@@ -19,6 +19,7 @@ import com.example.sky.ui.adapter.SearchResultAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_search.*
 import timber.log.Timber
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -76,6 +77,7 @@ class SearchFragment : BaseFragment() {
                     Timber.d("SkyResponse_Subscribe: " + searchResponse.toString())
                     this@SearchFragment.searchResponse = searchResponse
                     setUpAdapter(searchResultRV, searchResponse!!)
+                    updateHeader(searchResponse!!)
                 },
                 {t ->
                     when(t){
@@ -101,6 +103,9 @@ class SearchFragment : BaseFragment() {
                 .subscribe({
                     startDetailActivityWithTransition(activity as Activity, it.second.findViewById(R.id.carrier_image), it.second.findViewById(R.id.recents_photo_id), it.first)
                 })
+    }
+    private fun updateHeader(searchResponse: SearchResponse){
+        search_result_count.text = getString(R.string.search_result_count, searchResponse?.Itineraries?.size, searchResponse?.Itineraries?.size)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
