@@ -29,6 +29,7 @@ class SearchResultAdapter(val searchResponse: SearchResponse, val context: Conte
     private val legsMap: HashMap<String, Leg> = HashMap()
     private val placesMap: HashMap<String, Place> = HashMap()
     private val carriersMap: HashMap<String, Carrier> = HashMap()
+    private val agentsMap: HashMap<String, Agent> = HashMap()
 
     init {
         App.glideComponent.inject(this)
@@ -40,6 +41,9 @@ class SearchResultAdapter(val searchResponse: SearchResponse, val context: Conte
         }
         for ( carrier in searchResponse.Carriers!!){
             carrier.Id?.let { carriersMap.put(it, carrier) }
+        }
+        for ( agent in searchResponse.Agents!!){
+            agent.Id?.let { agentsMap.put(it, agent) }
         }
     }
 

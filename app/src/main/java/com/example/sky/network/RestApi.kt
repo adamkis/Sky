@@ -1,9 +1,9 @@
 package com.example.sky.network
 
 import android.net.Uri
+import com.example.sky.model.SearchDetails
 import com.example.sky.model.SearchResponse
 import io.reactivex.Observable
-import okhttp3.ResponseBody
 import retrofit2.http.*
 
 
@@ -35,19 +35,17 @@ interface RestApi {
         "Accept: application/json"
     )
     fun pricingGetSession(@Field("cabinclass") cabinclass: String = "Economy",
-                          @Field("country") country: String = "uk",
-                          @Field("currency") currency: String = "GBP",
-                          @Field("locale") locale: String = "en-GB",
-                          @Field("locationSchema") locationSchema: String = "iata",
-                          @Field("originplace") originplace: String = "EDI",
-                          @Field("destinationplace") destinationplace: String = "LHR",
-                          @Field("outbounddate") outbounddate: String = "2018-05-30",
-                          @Field("inbounddate") inbounddate: String = "2018-06-02",
+                          @Field("country") country: String,
+                          @Field("currency") currency: String,
+                          @Field("locale") locale: String,
+                          @Field("locationSchema") locationSchema: String,
+                          @Field("originplace") originplace: String,
+                          @Field("destinationplace") destinationplace: String,
+                          @Field("outbounddate") outbounddate: String,
+                          @Field("inbounddate") inbounddate: String,
                           @Field("adults") adults: String = "1",
-                          @Field("children") children: String = "0",
-                          @Field("infants") infants: String = "0",
                           @Field("apikey") apikey: String = RestApi.SKY_API_KEY
-            ): Observable<retrofit2.Response<ResponseBody>>
+            ): Observable<retrofit2.Response<Void>>
 
 
     @GET

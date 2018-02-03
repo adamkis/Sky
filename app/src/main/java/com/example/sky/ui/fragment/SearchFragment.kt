@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import com.example.sky.App
 import com.example.sky.R
 import com.example.sky.helper.getStackTrace
+import com.example.sky.model.SearchDetails
 import com.example.sky.model.SearchResponse
 import com.example.sky.network.RestApi
 import com.example.sky.ui.adapter.SearchResultAdapter
@@ -57,12 +58,23 @@ class SearchFragment : BaseFragment() {
             showLoading(false)
         }
         else{
-            pricingGetSession(searchResultRV)
+            pricingGetSession(searchResultRV, getSearchDetails())
         }
     }
 
-    private fun pricingGetSession(searchResultRV: RecyclerView){
-        callDisposable = restApi.pricingGetSession()
+    private fun pricingGetSession(searchResultRV: RecyclerView, searchDetails: SearchDetails){
+        callDisposable = restApi.pricingGetSession(
+                cabinclass = searchDetails.cabinclass,
+                country = searchDetails.country,
+                currency = searchDetails.currency,
+                locale = searchDetails.locale,
+                locationSchema = searchDetails.locationSchema,
+                originplace = searchDetails.originplace,
+                destinationplace = searchDetails.destinationplace,
+                outbounddate = searchDetails.outbounddate,
+                inbounddate = searchDetails.inbounddate,
+                adults = searchDetails.adults
+            )
             .map{
                 response -> response.headers().get("Location")
             }
@@ -100,6 +112,22 @@ class SearchFragment : BaseFragment() {
                     Timber.d(getStackTrace(t))
                 }
             )
+    }
+
+    // TODO: pass as intent
+    public fun getSearchDetails(): SearchDetails{
+        return SearchDetails(
+            cabinclass = "Economy",
+            country = "uk",
+            currency = "GBP",
+            locale = "en-GB",
+            locationSchema = "iata",
+            originplace = "EDI",
+            destinationplace = "LHR",
+            outbounddate = "2018-05-30",
+            inbounddate = "2018-06-02",
+            adults = "1"
+        )
     }
 
     private fun setUpAdapter(searchResultRV: RecyclerView, searchResponse: SearchResponse){
