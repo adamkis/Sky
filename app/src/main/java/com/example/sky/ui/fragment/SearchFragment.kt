@@ -106,6 +106,7 @@ class SearchFragment : BaseFragment() {
     }
     private fun updateHeader(searchResponse: SearchResponse){
         search_result_count.text = getString(R.string.search_result_count, searchResponse?.Itineraries?.size, searchResponse?.Itineraries?.size)
+        sort_and_filters.text = getString(R.string.sort_and_filters)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

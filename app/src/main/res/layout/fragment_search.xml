@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_xl"
             android:background="@color/white"
+            android:padding="@dimen/padding_xl"
             android:elevation="2dp">
 
             <TextView
@@ -24,10 +25,19 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginLeft="@dimen/padding_m"
                 android:freezesText="true"
                 />
 
+            <TextView
+                android:id="@+id/sort_and_filters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_m"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:freezesText="true"
+                />
 
         </android.support.constraint.ConstraintLayout>
 

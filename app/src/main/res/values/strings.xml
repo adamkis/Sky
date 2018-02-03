@@ -8,4 +8,5 @@
     <string name="error">Error</string>
     <string name="could_not_load_data">Could not load data</string>
     <string name="search_result_count">%1$d of %2$d results</string>
+    <string name="sort_and_filters">SORT &amp; FILTERS</string>
 </resources>
