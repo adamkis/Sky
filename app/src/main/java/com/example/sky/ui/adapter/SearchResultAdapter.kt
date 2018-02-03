@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.RequestManager
 import com.example.sky.App
@@ -20,7 +19,7 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.search_item.view.*
 import javax.inject.Inject
 
-class SearchResultAdapter(val searchResponse: SearchResponse, val context: Context) : RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
+class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: SearchResponse, val context: Context) : RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
 
     @Inject lateinit var glideReqManager: RequestManager
     private val clickSubject = PublishSubject.create<Pair<Photo, View>>()
@@ -30,6 +29,7 @@ class SearchResultAdapter(val searchResponse: SearchResponse, val context: Conte
     private val placesMap: HashMap<String, Place> = HashMap()
     private val carriersMap: HashMap<String, Carrier> = HashMap()
     private val agentsMap: HashMap<String, Agent> = HashMap()
+    private var currencySymbol: String? = null
 
     init {
         App.glideComponent.inject(this)
@@ -44,6 +44,12 @@ class SearchResultAdapter(val searchResponse: SearchResponse, val context: Conte
         }
         for ( agent in searchResponse.Agents!!){
             agent.Id?.let { agentsMap.put(it, agent) }
+        }
+        for ( currency in searchResponse.Currencies!!){
+            if( currency.Code == searchDetails.currency ){
+                currencySymbol = currency.Symbol
+                break
+            }
         }
     }
 
@@ -67,6 +73,11 @@ class SearchResultAdapter(val searchResponse: SearchResponse, val context: Conte
         }
 
         fun bind(itinerary: Itinerary?){
+
+            val agent: Agent? = agentsMap[itinerary?.PricingOptions?.get(0)?.Agents?.get(0)]
+            view.price.text = currencySymbol + itinerary?.PricingOptions?.get(0)?.Price
+            // TODO: Into formatutils
+            view.agent.text = "via " + agent?.Name
 
             // TODO: Clean up
 
