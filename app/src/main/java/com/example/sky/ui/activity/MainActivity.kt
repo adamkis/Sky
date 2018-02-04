@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import com.example.sky.R
 import com.example.sky.helper.formatSearchDetails
+import com.example.sky.helper.getNextMondayAndNextDayReturn
 import com.example.sky.model.SearchDetails
 import com.example.sky.ui.fragment.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,13 +25,13 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        var searchDetails = getSearchDetails()
+        val searchDetails = getMockSearchDetails()
         search_title_places.text = getString(R.string.search_title_places, searchDetails.originplace, searchDetails.destinationplace)
         search_title_details.text = formatSearchDetails(searchDetails, this)
 
         replaceFragment(
             if(savedInstanceState != null) supportFragmentManager.getFragment(savedInstanceState, ACTIVE_FRAGMENT_KEY)
-            else SearchFragment.newInstance(getSearchDetails())
+            else SearchFragment.newInstance(searchDetails)
         )
     }
 
@@ -49,7 +50,9 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    public fun getSearchDetails(): SearchDetails {
+
+    fun getMockSearchDetails(): SearchDetails {
+        val nextMondayAndNextDayReturn = getNextMondayAndNextDayReturn()
         return SearchDetails(
                 cabinclass = "Economy",
                 country = "uk",
@@ -58,8 +61,8 @@ class MainActivity : AppCompatActivity() {
                 locationSchema = "iata",
                 originplace = "EDI",
                 destinationplace = "LHR",
-                outbounddate = "2018-05-30",
-                inbounddate = "2018-06-02",
+                outbounddate = nextMondayAndNextDayReturn.first,
+                inbounddate = nextMondayAndNextDayReturn.second,
                 adults = "1"
         )
     }

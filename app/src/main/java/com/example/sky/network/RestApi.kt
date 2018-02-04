@@ -18,8 +18,6 @@ interface RestApi {
             val builtUri: Uri = Uri.parse(urlString)
                     .buildUpon()
                     .appendQueryParameter("apiKey", SKY_API_KEY)
-                    // TODO: Put it into a place where it fits better
-                    .appendQueryParameter("stops", "0")
                     .build()
             return builtUri.toString()
         }
@@ -27,7 +25,6 @@ interface RestApi {
     }
 
     // TODO: Add IP in header
-    // TODO get always next Monday
     @FormUrlEncoded
     @POST("pricing/v1.0")
     @Headers(

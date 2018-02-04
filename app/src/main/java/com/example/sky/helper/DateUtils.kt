@@ -31,3 +31,29 @@ fun getDayMonth(dateString: String?): String? {
     }
     return dayMonthString
 }
+
+fun getDateString(date: Date): String? {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    var dateString: String? = null
+    try {
+        dateString = dateFormat.format(date)
+    } catch (e: ParseException) {
+        logThrowable(e)
+    }
+    return dateString
+}
+
+
+fun getNextMondayAndNextDayReturn(): Pair<String, String>{
+    val outBoundDate: Calendar = Calendar.getInstance()
+    val inBoundDate: Calendar = Calendar.getInstance()
+    while (outBoundDate.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+        outBoundDate.add(Calendar.DATE, 1)
+        inBoundDate.add(Calendar.DATE, 1)
+    }
+    inBoundDate.add(Calendar.DATE, 1)
+
+    var outBoundString = getDateString(outBoundDate.time) ?: ""
+    var inBoundString = getDateString(inBoundDate.time) ?: ""
+    return Pair(outBoundString, inBoundString)
+}
