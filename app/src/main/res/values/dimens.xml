@@ -14,7 +14,9 @@
     <dimen name="font_xl">26dp</dimen>
     <dimen name="font_xxl">30dp</dimen>
 
-    <dimen name="height_s">24dp</dimen>
+    <dimen name="height_xxs">24dp</dimen>
+    <dimen name="height_xs">30dp</dimen>
+    <dimen name="height_s">36dp</dimen>
     <dimen name="height_m">48dp</dimen>
     <dimen name="height_l">56dp</dimen>
     <dimen name="height_xl">72dp</dimen>

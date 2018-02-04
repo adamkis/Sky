@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/padding_l"
-    android:paddingRight="@dimen/padding_l"
+    android:paddingLeft="@dimen/padding_xl"
+    android:paddingRight="@dimen/padding_xl"
     android:paddingTop="@dimen/padding_m"
     android:paddingBottom="@dimen/padding_m">
 
 
     <ImageView
         android:id="@+id/carrier_image"
-        android:layout_width="@dimen/height_m"
-        android:layout_height="@dimen/height_m"
+        android:layout_width="@dimen/height_s"
+        android:layout_height="@dimen/height_s"
         android:src="@mipmap/ic_launcher"
         android:scaleType="centerCrop"
         android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/padding_m"
         />
 
     <LinearLayout
@@ -33,7 +33,9 @@
             android:id="@+id/leg_departure_arrival_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_l"/>
+            android:textColor="@color/dark_grey"
+            android:textStyle="bold"
+            android:textSize="@dimen/font_m"/>
 
 
         <TextView
@@ -41,7 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:textSize="@dimen/font_m"/>
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/font_xs"/>
 
 
     </LinearLayout>
@@ -58,14 +61,17 @@
             android:id="@+id/leg_stops"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_l"/>
+            android:textColor="@color/dark_grey"
+            android:textStyle="bold"
+            android:textSize="@dimen/font_m"/>
 
 
         <TextView
             android:id="@+id/leg_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_m"/>
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/font_xs"/>
 
     </LinearLayout>
 

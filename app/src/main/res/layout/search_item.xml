@@ -27,14 +27,16 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/light_grey_background"
+            android:layout_marginTop="@dimen/padding_s"
+            android:layout_marginBottom="@dimen/padding_s"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/padding_l"
-            android:paddingRight="@dimen/padding_l"
+            android:paddingLeft="@dimen/padding_xl"
+            android:paddingRight="@dimen/padding_xl"
             android:paddingTop="@dimen/padding_m"
             android:paddingBottom="@dimen/padding_m">
             
@@ -44,6 +46,8 @@
                 android:text="10.0"
                 android:textSize="@dimen/font_m"
                 android:layout_gravity="center_vertical"
+                android:textStyle="bold"
+                android:textColor="@color/dark_grey"
                 />
 
             <LinearLayout
@@ -59,15 +63,18 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_m"
                     android:ellipsize="end"
+                    android:textStyle="bold"
                     android:layout_gravity="center_vertical|right"
+                    android:textColor="@color/dark_grey"
                     />
                 <TextView
                     android:id="@+id/agent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_m"
+                    android:textSize="@dimen/font_xs"
                     android:ellipsize="end"
                     android:layout_gravity="center_vertical|right"
+                    android:textColor="@color/light_grey"
                     />
 
             </LinearLayout>
