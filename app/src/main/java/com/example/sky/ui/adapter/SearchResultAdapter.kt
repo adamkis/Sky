@@ -11,12 +11,13 @@ import com.example.sky.App
 import com.example.sky.R
 import com.example.sky.helper.*
 import com.example.sky.model.*
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.search_item.view.*
 import javax.inject.Inject
 
-class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: SearchResponse, val context: Context) : RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
+class SearchResultAdapter(searchDetails: SearchDetails,
+                          private val searchResponse: SearchResponse,
+                          private val context: Context
+        ) : RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>(){
 
     @Inject lateinit var glideReqManager: RequestManager
 
@@ -59,20 +60,20 @@ class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: 
 
     override fun getItemCount(): Int = searchResponse.Itineraries!!.size
 
-    inner class SearchResultViewHolder(val glideReqManager: RequestManager, val view: View, val context: Context) : RecyclerView.ViewHolder(view){
+    inner class SearchResultViewHolder(private val glideReqManager: RequestManager, private val view: View, private val context: Context) : RecyclerView.ViewHolder(view){
 
         fun bind(itinerary: Itinerary?){
             fillAgentAndPrice(itinerary)
             fillInBoundOutBoundInfo(itinerary)
         }
 
-        fun fillAgentAndPrice(itinerary: Itinerary?){
+        private fun fillAgentAndPrice(itinerary: Itinerary?){
             val agent: Agent? = agentsMap[itinerary?.PricingOptions?.get(0)?.Agents?.get(0)]
-            view.price.text = currencySymbol + roundPrice(itinerary?.PricingOptions?.get(0)?.Price)
+            view.price.text = String.format("%s%s", currencySymbol, roundPrice(itinerary?.PricingOptions?.get(0)?.Price))
             view.agent.text = formatVia(agent?.Name)
         }
 
-        fun fillInBoundOutBoundInfo(itinerary: Itinerary?){
+        private fun fillInBoundOutBoundInfo(itinerary: Itinerary?){
             val outBoundLeg: Leg? = legsMap[itinerary?.OutboundLegId]
             val inBoundLeg: Leg? = legsMap[itinerary?.InboundLegId]
             val outBoundLegOrigin: Place? = placesMap[outBoundLeg?.OriginStation]
