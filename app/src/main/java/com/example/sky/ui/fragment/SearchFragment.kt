@@ -121,6 +121,7 @@ class SearchFragment : BaseFragment() {
                         }
                     }
                     // TODO: retrofit2.adapter.rxjava2.httpexception: http 304 not modified
+                    // TODO relaod on error in snackbar
                     Timber.d("Loading Error")
                     Timber.d(getStackTrace(t))
                 }

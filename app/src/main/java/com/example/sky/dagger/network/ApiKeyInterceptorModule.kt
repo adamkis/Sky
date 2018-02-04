@@ -6,20 +6,21 @@ import okhttp3.Interceptor
 import javax.inject.Named
 import javax.inject.Singleton
 
-// TODO: Remove
+// TODO: Change name
+// TODO: clean up
 @Module
 class ApiKeyInterceptorModule() {
     @Provides
     @Singleton
     @Named("apiKey")
     fun provideApiKeyInterceptor(): Interceptor {
-        return Interceptor { chain ->
-            var request = chain.request()
-//            val url = request.url().newBuilder()
-//                    .addQueryParameter("api_key", SecretKeys.FLICKR_KEY)
-//                    .build()
-//            request = request.newBuilder().url(url).build()
-            chain.proceed(request)
+        return Interceptor {
+            chain ->
+                val originalResponse = chain.proceed(chain.request())
+                originalResponse.newBuilder()
+//                        .header("Cache-Control", String.format("max-age=%d, only-if-cached, max-stale=%d", 120, 0))
+                        .header("Cache-Control", String.format("max-age=%d, private, max-stale=%d", 24*60*60, 0))
+                        .build()
         }
     }
 }
