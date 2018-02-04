@@ -33,7 +33,7 @@
                 android:id="@+id/sort_and_filters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_grey"
+                android:textColor="@color/dark_grey2"
                 android:textSize="@dimen/font_s"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

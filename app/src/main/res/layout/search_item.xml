@@ -46,7 +46,6 @@
                 android:text="10.0"
                 android:textSize="@dimen/font_m"
                 android:layout_gravity="center_vertical"
-                android:textStyle="bold"
                 android:textColor="@color/dark_grey"
                 />
 
@@ -63,7 +62,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_m"
                     android:ellipsize="end"
-                    android:textStyle="bold"
                     android:layout_gravity="center_vertical|right"
                     android:textColor="@color/dark_grey"
                     />

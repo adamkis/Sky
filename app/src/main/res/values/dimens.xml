@@ -10,7 +10,7 @@
     <dimen name="font_xs">14sp</dimen>
     <dimen name="font_s">16sp</dimen>
     <dimen name="font_m">18sp</dimen>
-    <dimen name="font_l">22sp</dimen>
+    <dimen name="font_l">20sp</dimen>
     <dimen name="font_xl">26dp</dimen>
     <dimen name="font_xxl">30dp</dimen>
 

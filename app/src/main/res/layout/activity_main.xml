@@ -25,12 +25,16 @@
                 android:id="@+id/search_title_places"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_l"
                 android:ellipsize="end"/>
 
             <TextView
                 android:id="@+id/search_title_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/light_blue"
+                android:textSize="@dimen/font_xs"
                 android:ellipsize="end"/>
 
         </LinearLayout>

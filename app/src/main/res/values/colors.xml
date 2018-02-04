@@ -6,7 +6,8 @@
 
     <color name="white">#FFFFFF</color>
     <color name="light_grey_background">#dbdbdb</color>
-    <color name="light_grey">#a5a0ad</color>
+    <color name="light_grey">#898294</color>
     <color name="dark_grey">#544c63</color>
+    <color name="dark_grey2">#2D2634</color>
     <color name="light_blue">#b3e7f2</color>
 </resources>
