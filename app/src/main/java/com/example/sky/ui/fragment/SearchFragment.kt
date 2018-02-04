@@ -115,6 +115,10 @@ class SearchFragment : BaseFragment() {
                         }
                         is HttpException -> {
                             showError(getString(R.string.http_error))
+                            // TODO handling caching here?
+                            Timber.d("HttpException branch")
+                            Timber.d("message" + t.message) // messageHTTP 304 Not Modified
+                            Timber.d("http message" + t.message()) // http messageNot Modified
                         }
                         else -> {
                             showError(getString(R.string.error))
