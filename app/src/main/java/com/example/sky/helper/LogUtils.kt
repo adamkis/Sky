@@ -1,13 +1,18 @@
 package com.example.sky.helper
 
-import android.util.Log
+import timber.log.Timber
 import java.io.PrintWriter
 import java.io.StringWriter
 
-/**
- * Created by adam on 2018. 02. 02..
- */
+fun logThrowable(t: Throwable) {
+    Timber.e(t)
+    // TODO: send logs to analytics and servers
+}
 
+fun logDebug(s: String) {
+    Timber.d(s)
+    // TODO: send logs to analytics and servers
+}
 
 fun getStackTrace(throwable: Throwable): String {
     val sw = StringWriter()

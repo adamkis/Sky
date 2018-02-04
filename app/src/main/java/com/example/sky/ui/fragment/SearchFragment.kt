@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import com.example.sky.App
 import com.example.sky.R
 import com.example.sky.helper.getStackTrace
+import com.example.sky.helper.logDebug
 import com.example.sky.model.SearchDetails
 import com.example.sky.model.SearchResponse
 import com.example.sky.network.RestApi
@@ -21,7 +22,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_search.*
 import retrofit2.HttpException
-import timber.log.Timber
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -100,7 +100,7 @@ class SearchFragment : BaseFragment() {
             .doAfterTerminate { showLoading(false) }
             .subscribe(
                 { searchResponse ->
-                    Timber.d("SkyResponse_Subscribe: " + searchResponse.toString())
+                    logDebug("SkyResponse_Subscribe: " + searchResponse.toString())
                     this@SearchFragment.searchResponse = searchResponse
                     setUpAdapter(searchResultRV, searchDetails, searchResponse!!)
                     updateHeader(searchResponse!!)
@@ -116,9 +116,9 @@ class SearchFragment : BaseFragment() {
                         is HttpException -> {
                             showError(getString(R.string.http_error))
                             // TODO handling caching here?
-                            Timber.d("HttpException branch")
-                            Timber.d("message" + t.message) // messageHTTP 304 Not Modified
-                            Timber.d("http message" + t.message()) // http messageNot Modified
+                            logDebug("HttpException branch")
+                            logDebug("message" + t.message) // messageHTTP 304 Not Modified
+                            logDebug("http message" + t.message()) // http messageNot Modified
                         }
                         else -> {
                             showError(getString(R.string.error))
@@ -126,8 +126,8 @@ class SearchFragment : BaseFragment() {
                     }
                     // TODO: retrofit2.adapter.rxjava2.httpexception: http 304 not modified
                     // TODO relaod on error in snackbar
-                    Timber.d("Loading Error")
-                    Timber.d(getStackTrace(t))
+                    logDebug("Loading Error")
+                    logDebug(getStackTrace(t))
                 }
             )
     }

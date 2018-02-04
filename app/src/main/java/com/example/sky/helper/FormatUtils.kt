@@ -5,7 +5,6 @@ import com.example.sky.R
 import com.example.sky.model.Carrier
 import com.example.sky.model.Leg
 import com.example.sky.model.SearchDetails
-import timber.log.Timber
 
 fun getStopsCount(leg: Leg?, context: Context): String? {
     if (leg?.Stops?.isNotEmpty() == true){
@@ -40,8 +39,7 @@ fun roundPrice(priceString: String?): String {
         roundedPrice = priceString?.toDouble()?.toInt().toString()
     }
     catch (e: NumberFormatException){
-        // TODO log in logUtils class
-        Timber.d(e)
+        logThrowable(e)
     }
     return roundedPrice ?: ""
 }

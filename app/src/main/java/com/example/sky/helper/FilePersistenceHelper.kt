@@ -16,7 +16,7 @@ object FilePersistenceHelper{
             //Cleanup
             stream.close()
         } catch (e: Exception){
-            e.printStackTrace()
+            logThrowable(e)
         }
     }
 
@@ -27,7 +27,7 @@ object FilePersistenceHelper{
             bmp = BitmapFactory.decodeStream(fis)
             fis.close()
         } catch (e: Exception) {
-            e.printStackTrace()
+            logThrowable(e)
         }
         return bmp
     }

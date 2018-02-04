@@ -1,13 +1,11 @@
 package com.example.sky.dagger.network
 
+import com.example.sky.helper.logDebug
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
 import javax.inject.Named
 import javax.inject.Singleton
-import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
-import timber.log.Timber
 
 
 // TODO: Remove
@@ -37,8 +35,8 @@ class FormatInterceptorModule() {
             val request = chain.request()
             val response = chain.proceed(request)
             if (response.code() == 304) {
-                Timber.d("Error code was 304")
-                Timber.d(response.message())
+                logDebug("Error code was 304")
+                logDebug(response.message())
 
                 response
             }
