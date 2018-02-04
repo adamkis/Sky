@@ -64,7 +64,7 @@ class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: 
         fun bind(itinerary: Itinerary?){
 
             val agent: Agent? = agentsMap[itinerary?.PricingOptions?.get(0)?.Agents?.get(0)]
-            view.price.text = currencySymbol + itinerary?.PricingOptions?.get(0)?.Price
+            view.price.text = currencySymbol + roundPrice(itinerary?.PricingOptions?.get(0)?.Price)
             // TODO: Into formatutils
             view.agent.text = "via " + agent?.Name
 
