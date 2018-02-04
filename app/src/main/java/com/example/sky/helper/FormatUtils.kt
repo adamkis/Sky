@@ -6,16 +6,16 @@ import com.example.sky.model.Carrier
 import com.example.sky.model.Leg
 import com.example.sky.model.SearchDetails
 
-fun getStopsCount(leg: Leg?, context: Context): String? {
-    if (leg?.Stops?.isNotEmpty() == true){
-        return leg?.Stops?.size.toString()
+fun Leg?.getStopsCount(context: Context): String? {
+    if (this?.Stops?.isNotEmpty() == true){
+        return Stops?.size.toString()
     }
     return context.getString(R.string.direct)
 }
 
-fun formatMinutesToHoursMinutes(minutes: String?): String? {
-    val hours: Int = minutes?.toInt()?.div(60) ?: 0
-    val minutes: Int = minutes?.toInt()?.rem(60) ?: 0
+fun formatMinutesToHoursMinutes(inputMinutes: String?): String? {
+    val hours: Int = inputMinutes?.toInt()?.div(60) ?: 0
+    val minutes: Int = inputMinutes?.toInt()?.rem(60) ?: 0
     return hours.toString() + "h " + minutes.toString() + "m"
 }
 
