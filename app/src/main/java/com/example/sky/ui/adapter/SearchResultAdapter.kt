@@ -62,14 +62,17 @@ class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: 
     inner class SearchResultViewHolder(val glideReqManager: RequestManager, val view: View, val context: Context) : RecyclerView.ViewHolder(view){
 
         fun bind(itinerary: Itinerary?){
+            fillAgentAndPrice(itinerary)
+            fillInBoundOutBoundInfo(itinerary)
+        }
 
+        fun fillAgentAndPrice(itinerary: Itinerary?){
             val agent: Agent? = agentsMap[itinerary?.PricingOptions?.get(0)?.Agents?.get(0)]
             view.price.text = currencySymbol + roundPrice(itinerary?.PricingOptions?.get(0)?.Price)
-            // TODO: Into formatutils
-            view.agent.text = "via " + agent?.Name
+            view.agent.text = formatVia(agent?.Name)
+        }
 
-            // TODO: Clean up
-
+        fun fillInBoundOutBoundInfo(itinerary: Itinerary?){
             val outBoundLeg: Leg? = legsMap[itinerary?.OutboundLegId]
             val inBoundLeg: Leg? = legsMap[itinerary?.InboundLegId]
             val outBoundLegOrigin: Place? = placesMap[outBoundLeg?.OriginStation]
@@ -78,11 +81,12 @@ class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: 
             val inBoundLegDestination: Place? = placesMap[inBoundLeg?.DestinationStation]
             val outBoundCarrier: Carrier? = carriersMap[outBoundLeg?.Carriers?.get(0)]
             val inBoundCarrier: Carrier? = carriersMap[inBoundLeg?.Carriers?.get(0)]
-
-            val outBoundDepartureArrival = getTimeFromDateTimeString( outBoundLeg?.Departure ?: "") + " - " +
-                    getTimeFromDateTimeString(outBoundLeg?.Arrival ?: "")
-            val inBoundDepartureArrival = getTimeFromDateTimeString( inBoundLeg?.Departure ?: "") + " - " +
-                    getTimeFromDateTimeString(inBoundLeg?.Arrival ?: "")
+            val outBoundDepartureArrival = String.format("%s - %s",
+                    getTimeFromDateTimeString( outBoundLeg?.Departure ?: ""),
+                    getTimeFromDateTimeString(outBoundLeg?.Arrival ?: ""))
+            val inBoundDepartureArrival = String.format("%s - %s",
+                    getTimeFromDateTimeString( inBoundLeg?.Departure ?: ""),
+                    getTimeFromDateTimeString(inBoundLeg?.Arrival ?: ""))
 
             val outBoundRow = view.findViewById<View>(R.id.info_row_1)
             outBoundRow.findViewById<TextView>(R.id.leg_departure_arrival_time).text = outBoundDepartureArrival
@@ -97,7 +101,6 @@ class SearchResultAdapter(val searchDetails: SearchDetails, val searchResponse: 
             inBoundRow.findViewById<TextView>(R.id.leg_stops).text = getStopsCount(inBoundLeg, context)
             inBoundRow.findViewById<TextView>(R.id.leg_duration).text = formatMinutesToHoursMinutes(inBoundLeg?.Duration)
             buildFaviconUrl(inBoundCarrier).let { glideReqManager.load(it).into(inBoundRow.findViewById(R.id.carrier_image)) }
-
         }
 
     }

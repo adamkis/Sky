@@ -44,3 +44,7 @@ fun roundPrice(priceString: String?): String {
     return roundedPrice ?: ""
 }
 
+fun formatVia(input: String?): String {
+    return "via " + input
+}
+
