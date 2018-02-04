@@ -59,23 +59,19 @@ class SearchFragment : BaseFragment() {
             searchDetails = arguments!!.getParcelable(SEARCH_DETAILS_KEY)
         }
         if( savedInstanceState != null ){
-            searchResponse = savedInstanceState?.getParcelable(SEARCH_RESPONSE_KEY)
-            searchDetails = savedInstanceState?.getParcelable(SEARCH_DETAILS_KEY)
+            searchResponse = savedInstanceState.getParcelable(SEARCH_RESPONSE_KEY)
+            searchDetails = savedInstanceState.getParcelable(SEARCH_DETAILS_KEY)
         }
         if(searchResponse != null){
             setUpAdapter(searchResultRV, searchDetails!!, searchResponse!!)
             showLoading(false)
         }
         else{
-            pricingGetSession(searchResultRV, searchDetails!!)
-        }
-        // TODO Remove
-        sort_and_filters.setOnClickListener {
-            pricingGetSession(searchResultRV, searchDetails!!)
+            downloadData(searchResultRV, searchDetails!!)
         }
     }
 
-    private fun pricingGetSession(searchResultRV: RecyclerView, searchDetails: SearchDetails){
+    private fun downloadData(searchResultRV: RecyclerView, searchDetails: SearchDetails){
         callDisposable = restApi.pricingGetSession(
                 cabinclass = searchDetails.cabinclass,
                 country = searchDetails.country,
@@ -100,10 +96,11 @@ class SearchFragment : BaseFragment() {
             .doAfterTerminate { showLoading(false) }
             .subscribe(
                 { searchResponse ->
+                    // TODO remove logging
                     logDebug("SkyResponse_Subscribe: " + searchResponse.toString())
                     this@SearchFragment.searchResponse = searchResponse
                     setUpAdapter(searchResultRV, searchDetails, searchResponse!!)
-                    updateHeader(searchResponse!!)
+                    updateHeader(searchResponse)
                 },
                 {t ->
                     when(t){
@@ -137,7 +134,7 @@ class SearchFragment : BaseFragment() {
         searchResultRV.adapter = SearchResultAdapter(searchDetails, searchResponse, activity as Context)
     }
     private fun updateHeader(searchResponse: SearchResponse){
-        search_result_count.text = getString(R.string.search_result_count, searchResponse?.Itineraries?.size, searchResponse?.Itineraries?.size)
+        search_result_count.text = getString(R.string.search_result_count, searchResponse.Itineraries?.size, searchResponse.Itineraries?.size)
         sort_and_filters.text = getString(R.string.sort_and_filters)
     }
 

@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO hide settings when in search -->
     <item
         android:id="@+id/action_search"
         android:orderInCategory="200"
