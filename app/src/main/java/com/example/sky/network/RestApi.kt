@@ -24,14 +24,13 @@ interface RestApi {
 
     }
 
-    // TODO: Add IP in header
     @FormUrlEncoded
     @POST("pricing/v1.0")
     @Headers(
         "Content-Type: application/x-www-form-urlencoded",
         "Accept: application/json"
     )
-    fun pricingGetSession(@Field("cabinclass") cabinclass: String = "Economy",
+    fun pricingGetSession(@Field("cabinclass") cabinclass: String,
                           @Field("country") country: String,
                           @Field("currency") currency: String,
                           @Field("locale") locale: String,
@@ -40,7 +39,7 @@ interface RestApi {
                           @Field("destinationplace") destinationplace: String,
                           @Field("outbounddate") outbounddate: String,
                           @Field("inbounddate") inbounddate: String,
-                          @Field("adults") adults: String = "1",
+                          @Field("adults") adults: String,
                           @Field("apikey") apikey: String = RestApi.SKY_API_KEY
             ): Observable<retrofit2.Response<Void>>
 
