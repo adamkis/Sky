@@ -19,7 +19,7 @@ class ApiKeyInterceptorModule() {
                 val originalResponse = chain.proceed(chain.request())
                 originalResponse.newBuilder()
 //                        .header("Cache-Control", String.format("max-age=%d, only-if-cached, max-stale=%d", 120, 0))
-                        .header("Cache-Control", String.format("max-age=%d, private, max-stale=%d", 24*60*60, 0))
+                        .header("Cache-Control", String.format("max-age=%d, only-if-cached, max-stale=%d", 24*60*60, 0))
                         .build()
         }
     }

@@ -25,8 +25,8 @@ class OkHttpModule() {
 
         // TODO: clean up
 //        val file = File(application.filesDir, filename)
-//        val cache = Cache(application.filesDir, cacheSize)
-        val cache = Cache(application.cacheDir, cacheSize)
+//        val cache = Cache(application.cacheDir, cacheSize)
+        val cache = Cache(application.filesDir, cacheSize)
 
         var builder = OkHttpClient.Builder()
                 .cache(cache)
