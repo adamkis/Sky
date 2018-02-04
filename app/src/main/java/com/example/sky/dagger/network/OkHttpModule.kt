@@ -8,9 +8,8 @@ import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import javax.inject.Singleton
 import javax.inject.Named
-
+import javax.inject.Singleton
 
 
 @Module
@@ -23,7 +22,7 @@ class OkHttpModule() {
                             application: Application
         ): OkHttpClient {
         val cacheSize: Long = 10 * 1024 * 1024 // 10 MB
-        val cache = Cache(application.cacheDir, cacheSize)
+        val cache = Cache(application.filesDir, cacheSize)
         var builder = OkHttpClient.Builder()
                 .cache(cache)
                 .addInterceptor(formatInterceptor)

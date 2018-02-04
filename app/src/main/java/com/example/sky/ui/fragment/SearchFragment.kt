@@ -69,6 +69,10 @@ class SearchFragment : BaseFragment() {
         else{
             pricingGetSession(searchResultRV, searchDetails!!)
         }
+        // TODO Remove
+        sort_and_filters.setOnClickListener {
+            pricingGetSession(searchResultRV, searchDetails!!)
+        }
     }
 
     private fun pricingGetSession(searchResultRV: RecyclerView, searchDetails: SearchDetails){
