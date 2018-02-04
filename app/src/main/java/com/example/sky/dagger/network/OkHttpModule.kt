@@ -21,7 +21,7 @@ class OkHttpModule() {
                             @Named("apiKey") apiKeyInterceptor: Interceptor,
                             application: Application
         ): OkHttpClient {
-        val cacheSize: Long = 10 * 1024 * 1024 // 10 MB
+        val cacheSize: Long = 100 * 1024 * 1024 // 100 MB
 
         // TODO: clean up
 //        val file = File(application.filesDir, filename)

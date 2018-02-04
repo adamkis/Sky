@@ -67,4 +67,8 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    // TODO: handling the 304
+    // TODO: testing
+
+
 }
