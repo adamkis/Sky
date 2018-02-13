@@ -11,12 +11,14 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.example.sky.App
 import com.example.sky.R
+import com.example.sky.helper.FilePersistenceHelper
 import com.example.sky.helper.getStackTrace
 import com.example.sky.helper.logDebug
 import com.example.sky.model.SearchDetails
 import com.example.sky.model.SearchResponse
 import com.example.sky.network.RestApi
 import com.example.sky.ui.adapter.SearchResultAdapter
+import io.paperdb.Paper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -69,6 +71,10 @@ class SearchFragment : BaseFragment() {
         else{
             downloadData(searchResultRV, searchDetails!!)
         }
+        // TODO remove
+        header.setOnClickListener {
+            downloadData(searchResultRV, searchDetails!!)
+        }
     }
 
     private fun downloadData(searchResultRV: RecyclerView, searchDetails: SearchDetails){
@@ -95,38 +101,47 @@ class SearchFragment : BaseFragment() {
             .doOnSubscribe { showLoading(true) }
             .doAfterTerminate { showLoading(false) }
             .subscribe(
-                { searchResponse ->
-                    // TODO remove logging
-                    logDebug("SkyResponse_Subscribe: " + searchResponse.toString())
-                    this@SearchFragment.searchResponse = searchResponse
-                    setUpAdapter(searchResultRV, searchDetails, searchResponse!!)
-                    updateHeader(searchResponse)
-                },
-                {t ->
-                    when(t){
-                        is UnknownHostException -> {
-                            showError(getString(R.string.network_error))
-                        }
-                        is NullPointerException -> {
-                            showError(getString(R.string.could_not_load_data))
-                        }
-                        is HttpException -> {
-                            showError(getString(R.string.http_error))
-                            // TODO handling caching here?
-                            logDebug("HttpException branch")
-                            logDebug("message" + t.message) // messageHTTP 304 Not Modified
-                            logDebug("http message" + t.message()) // http messageNot Modified
-                        }
-                        else -> {
-                            showError(getString(R.string.error))
-                        }
-                    }
-                    // TODO: retrofit2.adapter.rxjava2.httpexception: http 304 not modified
-                    // TODO relaod on error in snackbar
-                    logDebug("Loading Error")
-                    logDebug(getStackTrace(t))
-                }
+                { searchResponse -> showResults(searchResponse, searchResultRV, searchDetails) },
+                { t -> handleError(t, searchResultRV, searchDetails) }
             )
+    }
+
+    private fun showResults(searchResponse: SearchResponse, searchResultRV: RecyclerView, searchDetails: SearchDetails){
+        this@SearchFragment.searchResponse = searchResponse
+        setUpAdapter(searchResultRV, searchDetails, searchResponse!!)
+        updateHeader(searchResponse)
+        Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
+    }
+
+    private fun handleError(t: Throwable, searchResultRV: RecyclerView, searchDetails: SearchDetails){
+        when(t){
+            is UnknownHostException -> {
+                showError(getString(R.string.network_error))
+            }
+            is NullPointerException -> {
+                showError(getString(R.string.could_not_load_data))
+            }
+            is HttpException -> {
+                if(t.message?.contains("304") == true){
+                    val savedResponse: SearchResponse? = Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
+                    savedResponse?.let {
+                        setUpAdapter(searchResultRV, searchDetails, it)
+                        updateHeader(it)
+                    }
+                }
+                else{
+                    showError(getString(R.string.http_error))
+                }
+                // TODO handling caching here?
+                logDebug("HttpException branch")
+                logDebug("message" + t.message) // messageHTTP 304 Not Modified
+                logDebug("http message" + t.message()) // http messageNot Modified
+            }
+            else -> {
+                showError(getString(R.string.error))
+            }
+        }
+        logDebug(getStackTrace(t))
     }
 
     private fun setUpAdapter(searchResultRV: RecyclerView, searchDetails: SearchDetails, searchResponse: SearchResponse){

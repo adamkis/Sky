@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_xl"
             android:background="@color/white"

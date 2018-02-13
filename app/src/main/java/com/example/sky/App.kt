@@ -9,6 +9,7 @@ import com.example.sky.dagger.glide.GlideModule
 import com.example.sky.dagger.network.*
 import com.example.sky.network.RestApi
 import com.squareup.leakcanary.LeakCanary
+import io.paperdb.Paper
 import timber.log.Timber
 
 
@@ -47,14 +48,18 @@ class App : Application() {
         super.onCreate()
         netComponent = createNetComponent(RestApi.SKY_URL_BASE)
         glideComponent = createGlideComponent(this)
+        // Timber
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
         Timber.tag("Sky")
+        // LeakCanary
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return
         }
         LeakCanary.install(this)
+        // Paper
+        Paper.init(applicationContext)
     }
 
 }
