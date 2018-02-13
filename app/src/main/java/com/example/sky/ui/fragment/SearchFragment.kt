@@ -107,7 +107,7 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun showResults(searchResponse: SearchResponse, searchResultRV: RecyclerView, searchDetails: SearchDetails){
-        this@SearchFragment.searchResponse = searchResponse
+        this.searchResponse = searchResponse
         setUpAdapter(searchResultRV, searchDetails, searchResponse!!)
         updateHeader(searchResponse)
         Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
@@ -122,26 +122,26 @@ class SearchFragment : BaseFragment() {
                 showError(getString(R.string.could_not_load_data))
             }
             is HttpException -> {
-                if(t.message?.contains("304") == true){
-                    val savedResponse: SearchResponse? = Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
-                    savedResponse?.let {
-                        setUpAdapter(searchResultRV, searchDetails, it)
-                        updateHeader(it)
-                    }
-                }
-                else{
-                    showError(getString(R.string.http_error))
-                }
-                // TODO handling caching here?
-                logDebug("HttpException branch")
-                logDebug("message" + t.message) // messageHTTP 304 Not Modified
-                logDebug("http message" + t.message()) // http messageNot Modified
+                handleHttpException(t, searchResultRV, searchDetails)
             }
             else -> {
                 showError(getString(R.string.error))
             }
         }
         logDebug(getStackTrace(t))
+    }
+
+    private fun handleHttpException(e: HttpException, searchResultRV: RecyclerView, searchDetails: SearchDetails){
+        if(e.message?.contains("304") == true){
+            val savedResponse: SearchResponse? = Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
+            savedResponse?.let {
+                setUpAdapter(searchResultRV, searchDetails, it)
+                updateHeader(it)
+            }
+        }
+        else{
+            showError(getString(R.string.http_error))
+        }
     }
 
     private fun setUpAdapter(searchResultRV: RecyclerView, searchDetails: SearchDetails, searchResponse: SearchResponse){
