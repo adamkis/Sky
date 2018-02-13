@@ -101,7 +101,10 @@ class SearchFragment : BaseFragment() {
             .doOnSubscribe { showLoading(true) }
             .doAfterTerminate { showLoading(false) }
             .subscribe(
-                { searchResponse -> showResults(searchResponse, searchResultRV, searchDetails) },
+                { searchResponse ->
+                    showResults(searchResponse, searchResultRV, searchDetails)
+                    saveResults(searchResponse)
+                },
                 { t -> handleError(t, searchResultRV, searchDetails) }
             )
     }
@@ -110,7 +113,6 @@ class SearchFragment : BaseFragment() {
         this.searchResponse = searchResponse
         setUpAdapter(searchResultRV, searchDetails, searchResponse!!)
         updateHeader(searchResponse)
-        Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
     }
 
     private fun handleError(t: Throwable, searchResultRV: RecyclerView, searchDetails: SearchDetails){
@@ -133,15 +135,19 @@ class SearchFragment : BaseFragment() {
 
     private fun handleHttpException(e: HttpException, searchResultRV: RecyclerView, searchDetails: SearchDetails){
         if(e.message?.contains("304") == true){
-            val savedResponse: SearchResponse? = Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
-            savedResponse?.let {
-                setUpAdapter(searchResultRV, searchDetails, it)
-                updateHeader(it)
-            }
+            loadSavedResults()?.let { showResults(it, searchResultRV, searchDetails) }
         }
         else{
             showError(getString(R.string.http_error))
         }
+    }
+
+    private fun saveResults(searchResponse: SearchResponse){
+        Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
+    }
+
+    private fun loadSavedResults(): SearchResponse{
+        return Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
     }
 
     private fun setUpAdapter(searchResultRV: RecyclerView, searchDetails: SearchDetails, searchResponse: SearchResponse){
