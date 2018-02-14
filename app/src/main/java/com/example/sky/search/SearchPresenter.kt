@@ -5,10 +5,12 @@ import com.example.sky.R
 import com.example.sky.helper.FilePersistenceHelper
 import com.example.sky.helper.getStackTrace
 import com.example.sky.helper.logDebug
+import com.example.sky.helper.logThrowable
 import com.example.sky.model.SearchDetails
 import com.example.sky.model.SearchResponse
 import com.example.sky.network.RestApi
 import io.paperdb.Paper
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -20,6 +22,7 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
 
     @Inject lateinit var restApi: RestApi
     private var callDisposable: Disposable? = null
+    private var paperDisposable: Disposable? = null
 
     init {
         App.netComponent.inject(this)
@@ -82,17 +85,30 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
     }
 
     private fun handleHttpException(e: HttpException, searchDetails: SearchDetails){
-        val searchResponse: SearchResponse? = loadSavedResults()
-        if(e.message?.contains("304") == true && searchResponse != null){
-            mSearchView.showSearchResults(searchResponse, searchDetails)
-        }
-        else{
-            mSearchView.showError(R.string.http_error)
-        }
+        paperDisposable =  Observable.just<SearchResponse>( loadSavedResults() )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe (
+                { searchResponse ->
+                    if(e.message?.contains("304") == true && searchResponse != null){
+                        mSearchView.showSearchResults(searchResponse, searchDetails)
+                    }
+                    else{
+                        mSearchView.showError(R.string.http_error)
+                    }
+                },
+                { logThrowable(it) }
+            )
     }
 
     private fun saveResults(searchResponse: SearchResponse){
-        Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
+        paperDisposable =  Observable.just(
+                Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse) )
+            .subscribeOn(Schedulers.io())
+            .subscribe (
+                { _ -> },
+                { logThrowable(it) }
+            )
     }
 
     private fun loadSavedResults(): SearchResponse?{
@@ -103,6 +119,7 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
 
     override fun onViewDetached() {
         callDisposable?.dispose()
+        paperDisposable?.dispose()
     }
 
 }
