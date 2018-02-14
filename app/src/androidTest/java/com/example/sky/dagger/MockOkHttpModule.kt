@@ -5,11 +5,10 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class MockOkHttpModule() {
+class MockOkHttpModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {

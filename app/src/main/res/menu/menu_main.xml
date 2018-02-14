@@ -5,15 +5,15 @@
     <item
         android:id="@+id/action_search"
         android:orderInCategory="200"
-        android:title="Search"
+        android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="Settings"
+        android:title="@string/settings"
         app:showAsAction="never"/>
 
 </menu>

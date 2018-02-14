@@ -70,7 +70,7 @@ class SearchFragment : BaseFragment(), SearchContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
-        mPresenter?.let { it.onViewDetached() }
+        mPresenter.onViewDetached()
     }
 
 }
