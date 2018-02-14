@@ -177,6 +177,10 @@ class SearchFragment : BaseFragment(), SearchContract.View {
         sort_and_filters.text = getString(R.string.sort_and_filters)
     }
 
+    override fun setProgressIndicator(active: Boolean) {
+        showLoading(active)
+    }
+
 //    override fun onSaveInstanceState(outState: Bundle) {
 //        super.onSaveInstanceState(outState)
 //        outState.putParcelable(SEARCH_RESPONSE_KEY, searchResponse)

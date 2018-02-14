@@ -53,9 +53,8 @@ class SearchPresenter(private val mSearchView: SearchContract.View) : SearchCont
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                // TODO put back loading
-//                .doOnSubscribe { showLoading(true) }
-//                .doAfterTerminate { showLoading(false) }
+                .doOnSubscribe { mSearchView.setProgressIndicator(true) }
+                .doAfterTerminate { mSearchView.setProgressIndicator(false) }
                 .subscribe(
                         { searchResponse ->
                             mSearchView.showSearchResults(searchResponse, searchDetails)

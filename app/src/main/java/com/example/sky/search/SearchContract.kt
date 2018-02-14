@@ -11,11 +11,11 @@ interface SearchContract {
 
 //        val isActive: Boolean
 //
-//        fun setProgressIndicator(active: Boolean)
-//
 //        fun showStatistics(numberOfIncompleteTasks: Int, numberOfCompletedTasks: Int)
 //
 //        fun showLoadingStatisticsError()
+
+        fun setProgressIndicator(active: Boolean)
 
         fun showSearchResults(searchResponse: SearchResponse, searchDetails: SearchDetails)
 
