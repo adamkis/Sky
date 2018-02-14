@@ -81,7 +81,7 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
                 mSearchView.showError(R.string.error)
             }
         }
-        logDebug(getStackTrace(t))
+        logThrowable(t)
     }
 
     private fun handleHttpException(e: HttpException, searchDetails: SearchDetails){
