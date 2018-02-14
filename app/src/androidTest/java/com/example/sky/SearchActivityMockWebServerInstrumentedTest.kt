@@ -8,7 +8,7 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import com.example.sky.helper.MockResponseStrings
-import com.example.sky.ui.activity.SearchActivity
+import com.example.sky.search.SearchActivity
 import com.squareup.okhttp.mockwebserver.Dispatcher
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.MockWebServer

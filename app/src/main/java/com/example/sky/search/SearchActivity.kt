@@ -1,4 +1,4 @@
-package com.example.sky.ui.activity
+package com.example.sky.search
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -7,8 +7,6 @@ import com.example.sky.R
 import com.example.sky.helper.formatSearchDetails
 import com.example.sky.helper.getNextMondayAndNextDayReturn
 import com.example.sky.model.SearchDetails
-import com.example.sky.search.SearchPresenter
-import com.example.sky.ui.fragment.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 

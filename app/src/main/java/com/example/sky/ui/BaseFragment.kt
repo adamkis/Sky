@@ -1,4 +1,4 @@
-package com.example.sky.ui.fragment
+package com.example.sky.ui
 
 import android.support.annotation.StringRes
 import android.support.design.widget.CoordinatorLayout

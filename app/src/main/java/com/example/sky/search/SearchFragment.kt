@@ -1,4 +1,4 @@
-package com.example.sky.ui.fragment
+package com.example.sky.search
 
 import android.content.Context
 import android.os.Bundle
@@ -12,8 +12,8 @@ import android.widget.LinearLayout
 import com.example.sky.R
 import com.example.sky.model.SearchDetails
 import com.example.sky.model.SearchResponse
-import com.example.sky.search.SearchContract
 import com.example.sky.ui.adapter.SearchResultAdapter
+import com.example.sky.ui.BaseFragment
 import kotlinx.android.synthetic.main.fragment_search.*
 
 

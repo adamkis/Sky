@@ -10,7 +10,7 @@ import android.support.test.rule.ActivityTestRule
 import com.example.sky.dagger.MockOkHttpModule
 import com.example.sky.dagger.network.*
 import com.example.sky.network.RestApi
-import com.example.sky.ui.activity.SearchActivity
+import com.example.sky.search.SearchActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
