@@ -14,53 +14,27 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class SearchActivity : AppCompatActivity() {
 
-//    private var activeFragment: Fragment? = null
-//    private val ACTIVE_FRAGMENT_KEY = "ACTIVE_FRAGMENT_KEY"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val searchDetails = getSearchDetails()
+        // Setting up Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        val searchDetails = getSearchDetails()
         search_title_places.text = getString(R.string.search_title_places, searchDetails.originplace, searchDetails.destinationplace)
         search_title_details.text = formatSearchDetails(searchDetails, this)
-
-//        replaceFragment(
-//            if(savedInstanceState != null) supportFragmentManager.getFragment(savedInstanceState, ACTIVE_FRAGMENT_KEY)
-//            else SearchFragment.newInstance()
-//        )
-
-
+        // Creating SearchFragment
         var searchFragment: SearchFragment? = supportFragmentManager
                 .findFragmentById(R.id.fragment_container) as? SearchFragment
         if (searchFragment == null) {
-            // TODO change it to putting in bundle
             searchFragment = SearchFragment.newInstance()
-            // TODO put this back
-//            ActivityUtils.addFragmentToActivity(supportFragmentManager,
-//                    searchFragment, R.id.contentFrame)
-            // TODO nuccheck on id and fragment
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.add(R.id.fragment_container, searchFragment)
-            transaction.commit()
+            supportFragmentManager.beginTransaction().add(R.id.fragment_container, searchFragment).commit()
         }
-
+        // Creating the Presenter
         SearchPresenter(searchFragment, searchDetails)
     }
-
-//    override fun onSaveInstanceState(outState: Bundle?) {
-//        super.onSaveInstanceState(outState)
-//        supportFragmentManager.putFragment(outState, ACTIVE_FRAGMENT_KEY, activeFragment);
-//    }
-
-//    private fun replaceFragment(fragment: Fragment){
-//        activeFragment = fragment
-//        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, activeFragment).commit()
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -82,9 +56,5 @@ class SearchActivity : AppCompatActivity() {
                 adults = "1"
         )
     }
-
-    // TODO: handling the 304
-    // TODO: testing
-
 
 }

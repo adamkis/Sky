@@ -1,10 +1,8 @@
 package com.example.sky.search
 
-import android.support.v7.widget.RecyclerView
 import com.example.sky.App
 import com.example.sky.R
 import com.example.sky.helper.FilePersistenceHelper
-import com.example.sky.helper.getNextMondayAndNextDayReturn
 import com.example.sky.helper.getStackTrace
 import com.example.sky.helper.logDebug
 import com.example.sky.model.SearchDetails
@@ -20,9 +18,6 @@ import javax.inject.Inject
 
 class SearchPresenter(private val mSearchView: SearchContract.View, private val searchDetails: SearchDetails) : SearchContract.Presenter {
 
-//    private val mSearchView: SearchContract.View
-
-
     @Inject lateinit var restApi: RestApi
     private var callDisposable: Disposable? = null
 
@@ -32,10 +27,10 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
     }
 
     override fun start() {
-        downloadData(searchDetails)
+        loadSearchResults(searchDetails)
     }
 
-    private fun downloadData(searchDetails: SearchDetails){
+    private fun loadSearchResults(searchDetails: SearchDetails){
         callDisposable = restApi.pricingGetSession(
                 cabinclass = searchDetails.cabinclass,
                 country = searchDetails.country,
@@ -47,24 +42,24 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
                 outbounddate = searchDetails.outbounddate,
                 inbounddate = searchDetails.inbounddate,
                 adults = searchDetails.adults
-                )
-                .map{
-                    response -> response.headers().get("Location")
-                }
-                .flatMap {
-                    location -> restApi.pricingPollResults(RestApi.addApiKey(location))
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { mSearchView.setProgressIndicator(true) }
-                .doAfterTerminate { mSearchView.setProgressIndicator(false) }
-                .subscribe(
-                        { searchResponse ->
-                            mSearchView.showSearchResults(searchResponse, searchDetails)
-                            saveResults(searchResponse)
-                        },
-                        { t -> handleError(t, searchDetails) }
-                )
+            )
+            .map{
+                response -> response.headers().get("Location")
+            }
+            .flatMap {
+                location -> restApi.pricingPollResults(RestApi.addApiKey(location))
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { mSearchView.setProgressIndicator(true) }
+            .doAfterTerminate { mSearchView.setProgressIndicator(false) }
+            .subscribe(
+                { searchResponse ->
+                    mSearchView.showSearchResults(searchResponse, searchDetails)
+                    saveResults(searchResponse)
+                },
+                { t -> handleError(t, searchDetails) }
+            )
     }
 
 
@@ -95,7 +90,6 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
         }
     }
 
-
     private fun saveResults(searchResponse: SearchResponse){
         Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
     }
@@ -103,5 +97,12 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
     private fun loadSavedResults(): SearchResponse{
         return Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
     }
+
+    override fun onViewAttached() {}
+
+    override fun onViewDetached() {
+        callDisposable?.dispose()
+    }
+
 
 }

@@ -19,7 +19,4 @@ import javax.inject.Singleton
         RetrofitModule::class))
 interface NetComponent {
     fun inject(searchPresenter: SearchPresenter)
-    // TODO remove these
-    fun inject(searchActivity: SearchActivity)
-    fun inject(searchFragment: SearchFragment)
 }
