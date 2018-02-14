@@ -64,7 +64,8 @@ class SearchResultAdapter(searchDetails: SearchDetails,
 
         fun bind(itinerary: Itinerary?){
             fillAgentAndPrice(itinerary)
-            fillInBoundOutBoundInfo(itinerary)
+            fillLegInfo(legsMap[itinerary?.InboundLegId], view.findViewById<View>(R.id.info_row_1))
+            fillLegInfo(legsMap[itinerary?.OutboundLegId], view.findViewById<View>(R.id.info_row_2))
         }
 
         private fun fillAgentAndPrice(itinerary: Itinerary?){
@@ -73,35 +74,19 @@ class SearchResultAdapter(searchDetails: SearchDetails,
             view.agent.text = formatVia(agent?.Name)
         }
 
-        private fun fillInBoundOutBoundInfo(itinerary: Itinerary?){
-            val outBoundLeg: Leg? = legsMap[itinerary?.OutboundLegId]
-            val inBoundLeg: Leg? = legsMap[itinerary?.InboundLegId]
-            val outBoundLegOrigin: Place? = placesMap[outBoundLeg?.OriginStation]
-            val outBoundLegDestination: Place? = placesMap[outBoundLeg?.DestinationStation]
-            val inBoundLegOrigin: Place? = placesMap[inBoundLeg?.OriginStation]
-            val inBoundLegDestination: Place? = placesMap[inBoundLeg?.DestinationStation]
-            val outBoundCarrier: Carrier? = carriersMap[outBoundLeg?.Carriers?.get(0)]
-            val inBoundCarrier: Carrier? = carriersMap[inBoundLeg?.Carriers?.get(0)]
-            val outBoundDepartureArrival = String.format("%s - %s",
-                    getTimeFromDateTimeString( outBoundLeg?.Departure ?: ""),
-                    getTimeFromDateTimeString(outBoundLeg?.Arrival ?: ""))
-            val inBoundDepartureArrival = String.format("%s - %s",
-                    getTimeFromDateTimeString( inBoundLeg?.Departure ?: ""),
-                    getTimeFromDateTimeString(inBoundLeg?.Arrival ?: ""))
+        private fun fillLegInfo(leg: Leg?, row: View){
+            val legOrigin: Place? = placesMap[leg?.OriginStation]
+            val legDestination: Place? = placesMap[leg?.DestinationStation]
+            val carrier: Carrier? = carriersMap[leg?.Carriers?.get(0)]
+            val departureArrival = String.format("%s - %s",
+                    getTimeFromDateTimeString( leg?.Departure ?: ""),
+                    getTimeFromDateTimeString(leg?.Arrival ?: ""))
 
-            val outBoundRow = view.findViewById<View>(R.id.info_row_1)
-            outBoundRow.findViewById<TextView>(R.id.leg_departure_arrival_time).text = outBoundDepartureArrival
-            outBoundRow.findViewById<TextView>(R.id.leg_details).text = context.getString(R.string.leg_detail, outBoundLegOrigin?.Code, outBoundLegDestination?.Code, outBoundCarrier?.Name)
-            outBoundRow.findViewById<TextView>(R.id.leg_stops).text = outBoundLeg.getStopsCount(context)
-            outBoundRow.findViewById<TextView>(R.id.leg_duration).text = formatMinutesToHoursMinutes(outBoundLeg?.Duration)
-            buildFaviconUrl(outBoundCarrier).let { glideReqManager.load(it).into(outBoundRow.findViewById(R.id.carrier_image)) }
-
-            val inBoundRow = view.findViewById<View>(R.id.info_row_2)
-            inBoundRow.findViewById<TextView>(R.id.leg_departure_arrival_time).text = inBoundDepartureArrival
-            inBoundRow.findViewById<TextView>(R.id.leg_details).text = context.getString(R.string.leg_detail, inBoundLegOrigin?.Code, inBoundLegDestination?.Code, inBoundCarrier?.Name)
-            inBoundRow.findViewById<TextView>(R.id.leg_stops).text = inBoundLeg.getStopsCount(context)
-            inBoundRow.findViewById<TextView>(R.id.leg_duration).text = formatMinutesToHoursMinutes(inBoundLeg?.Duration)
-            buildFaviconUrl(inBoundCarrier).let { glideReqManager.load(it).into(inBoundRow.findViewById(R.id.carrier_image)) }
+            row.findViewById<TextView>(R.id.leg_departure_arrival_time).text = departureArrival
+            row.findViewById<TextView>(R.id.leg_details).text = context.getString(R.string.leg_detail, legOrigin?.Code, legDestination?.Code, carrier?.Name)
+            row.findViewById<TextView>(R.id.leg_stops).text = leg.getStopsCount(context)
+            row.findViewById<TextView>(R.id.leg_duration).text = formatMinutesToHoursMinutes(leg?.Duration)
+            buildFaviconUrl(carrier).let { glideReqManager.load(it).into(row.findViewById(R.id.carrier_image)) }
         }
 
     }
