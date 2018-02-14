@@ -8,7 +8,7 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import com.example.sky.helper.MockResponseStrings
-import com.example.sky.ui.activity.MainActivity
+import com.example.sky.ui.activity.SearchActivity
 import com.squareup.okhttp.mockwebserver.Dispatcher
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.MockWebServer
@@ -18,11 +18,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class MainActivityMockWebServerInstrumentedTest {
+class SearchActivityMockWebServerInstrumentedTest {
 
     @Suppress("unused") // actually used by Espresso
     @get:Rule
-    var mActivityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java, true, false)
+    var mActivityRule: ActivityTestRule<SearchActivity> = ActivityTestRule(SearchActivity::class.java, true, false)
     lateinit private var server: MockWebServer
     val app by lazy { InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as App }
 

@@ -12,7 +12,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import com.example.sky.helper.TestUtils
-import com.example.sky.ui.activity.MainActivity
+import com.example.sky.ui.activity.SearchActivity
 import org.junit.Rule
 import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.widget.TextView
@@ -21,11 +21,11 @@ import org.hamcrest.CoreMatchers.instanceOf
 
 
 @RunWith(AndroidJUnit4::class)
-class MainActivityInstrumentedTest {
+class SearchActivityInstrumentedTest {
 
     @Suppress("unused") // actually used by Espresso
     @get:Rule
-    val activityRule = ActivityTestRule<MainActivity>(MainActivity::class.java)
+    val activityRule = ActivityTestRule<SearchActivity>(SearchActivity::class.java)
 
     @Test
     fun homeActivity_Displayed() {

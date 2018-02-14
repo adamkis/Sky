@@ -1,7 +1,7 @@
 package com.example.sky.dagger
 
 import com.example.sky.dagger.network.*
-import com.example.sky.ui.activity.MainActivity
+import com.example.sky.ui.activity.SearchActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -14,5 +14,5 @@ import javax.inject.Singleton
         RestApiModule::class,
         RetrofitModule::class))
 interface MockNetComponent : NetComponent {
-    override fun inject(activity: MainActivity)
+    override fun inject(activity: SearchActivity)
 }

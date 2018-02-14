@@ -12,7 +12,7 @@ import com.example.sky.ui.fragment.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity() {
 
     private var activeFragment: Fragment? = null
     private val ACTIVE_FRAGMENT_KEY = "ACTIVE_FRAGMENT_KEY"

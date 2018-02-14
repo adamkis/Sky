@@ -10,18 +10,18 @@ import android.support.test.rule.ActivityTestRule
 import com.example.sky.dagger.MockOkHttpModule
 import com.example.sky.dagger.network.*
 import com.example.sky.network.RestApi
-import com.example.sky.ui.activity.MainActivity
+import com.example.sky.ui.activity.SearchActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 
-class MainActivityMockDaggerRestClientTest {
+class SearchActivityMockDaggerRestClientTest {
 
 
     @Suppress("unused") // actually used by Espresso
     @get:Rule
-    val activityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java, false, false)
+    val activityRule: ActivityTestRule<SearchActivity> = ActivityTestRule(SearchActivity::class.java, false, false)
     val app by lazy { InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as App }
 
     @Before
