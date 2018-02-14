@@ -46,22 +46,16 @@ class SearchFragment : BaseFragment(), SearchContract.View {
 //        private val SEARCH_DETAILS_KEY = "SEARCH_DETAILS_KEY"
 //        fun newInstance(searchDetails: SearchDetails): SearchFragment {
         fun newInstance(): SearchFragment {
-            val fragment = SearchFragment()
-//            val args = Bundle()
-//            args.putParcelable(SEARCH_DETAILS_KEY, searchDetails)
-//            fragment.arguments = args
-            return fragment
+            return SearchFragment()
         }
     }
 
     override fun setPresenter(presenter: SearchContract.Presenter) {
-        // TODO nullcheck
-        mPresenter = presenter
+        mPresenter = checkNotNull(presenter)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        App.netComponent.inject(this)
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
