@@ -17,6 +17,7 @@ import com.example.sky.helper.logDebug
 import com.example.sky.model.SearchDetails
 import com.example.sky.model.SearchResponse
 import com.example.sky.network.RestApi
+import com.example.sky.search.SearchContract
 import com.example.sky.ui.adapter.SearchResultAdapter
 import io.paperdb.Paper
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,23 +29,34 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 
-class SearchFragment : BaseFragment() {
+class SearchFragment : BaseFragment(), SearchContract.View {
 
-    @Inject lateinit var restApi: RestApi
-    private var callDisposable: Disposable? = null
-    private var searchResponse: SearchResponse? = null
-    private var searchDetails: SearchDetails? = null
+
+    lateinit private var mPresenter: SearchContract.Presenter
+    lateinit private var searchResultRV: RecyclerView
+
+//    @Inject lateinit var restApi: RestApi
+//    private var callDisposable: Disposable? = null
+
+//    private var searchResponse: SearchResponse? = null
+//    private var searchDetails: SearchDetails? = null
 
     companion object {
-        private val SEARCH_RESPONSE_KEY = "SEARCH_RESPONSE_KEY"
-        private val SEARCH_DETAILS_KEY = "SEARCH_DETAILS_KEY"
-        fun newInstance(searchDetails: SearchDetails): SearchFragment {
+//        private val SEARCH_RESPONSE_KEY = "SEARCH_RESPONSE_KEY"
+//        private val SEARCH_DETAILS_KEY = "SEARCH_DETAILS_KEY"
+//        fun newInstance(searchDetails: SearchDetails): SearchFragment {
+        fun newInstance(): SearchFragment {
             val fragment = SearchFragment()
-            val args = Bundle()
-            args.putParcelable(SEARCH_DETAILS_KEY, searchDetails)
-            fragment.arguments = args
+//            val args = Bundle()
+//            args.putParcelable(SEARCH_DETAILS_KEY, searchDetails)
+//            fragment.arguments = args
             return fragment
         }
+    }
+
+    override fun setPresenter(presenter: SearchContract.Presenter) {
+        // TODO nullcheck
+        mPresenter = presenter
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -56,66 +68,72 @@ class SearchFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpLoadingAndError(view.findViewById(R.id.loading), view as CoordinatorLayout)
-        val searchResultRV: RecyclerView = view.findViewById(R.id.search_result_recycler_view)
-        if (arguments != null) {
-            searchDetails = arguments!!.getParcelable(SEARCH_DETAILS_KEY)
-        }
-        if( savedInstanceState != null ){
-            searchResponse = savedInstanceState.getParcelable(SEARCH_RESPONSE_KEY)
-            searchDetails = savedInstanceState.getParcelable(SEARCH_DETAILS_KEY)
-        }
-        if(searchResponse != null){
-            setUpAdapter(searchResultRV, searchDetails!!, searchResponse!!)
-            showLoading(false)
-        }
-        else{
-            downloadData(searchResultRV, searchDetails!!)
-        }
+        searchResultRV = view.findViewById(R.id.search_result_recycler_view)
+//        if (arguments != null) {
+//            searchDetails = arguments!!.getParcelable(SEARCH_DETAILS_KEY)
+//        }
+//        if( savedInstanceState != null ){
+//            searchResponse = savedInstanceState.getParcelable(SEARCH_RESPONSE_KEY)
+//            searchDetails = savedInstanceState.getParcelable(SEARCH_DETAILS_KEY)
+//        }
+//        if(searchResponse != null){
+//            setUpAdapter(searchResultRV, searchDetails!!, searchResponse!!)
+//            showLoading(false)
+//        }
+//        else{
+//            downloadData(searchResultRV, searchDetails!!)
+//        }
         // TODO remove
-        header.setOnClickListener {
-            downloadData(searchResultRV, searchDetails!!)
-        }
+//        header.setOnClickListener {
+//            downloadData(searchResultRV, searchDetails!!)
+//        }
     }
 
-    private fun downloadData(searchResultRV: RecyclerView, searchDetails: SearchDetails){
-        callDisposable = restApi.pricingGetSession(
-                cabinclass = searchDetails.cabinclass,
-                country = searchDetails.country,
-                currency = searchDetails.currency,
-                locale = searchDetails.locale,
-                locationSchema = searchDetails.locationSchema,
-                originplace = searchDetails.originplace,
-                destinationplace = searchDetails.destinationplace,
-                outbounddate = searchDetails.outbounddate,
-                inbounddate = searchDetails.inbounddate,
-                adults = searchDetails.adults
-            )
-            .map{
-                response -> response.headers().get("Location")
-            }
-            .flatMap {
-                location -> restApi.pricingPollResults(RestApi.addApiKey(location))
-            }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { showLoading(true) }
-            .doAfterTerminate { showLoading(false) }
-            .subscribe(
-                { searchResponse ->
-                    showResults(searchResponse, searchResultRV, searchDetails)
-                    saveResults(searchResponse)
-                },
-                { t -> handleError(t, searchResultRV, searchDetails) }
-            )
+
+    override fun onResume() {
+        super.onResume()
+        mPresenter.start()
     }
 
-    private fun showResults(searchResponse: SearchResponse, searchResultRV: RecyclerView, searchDetails: SearchDetails){
-        this.searchResponse = searchResponse
+
+//    private fun downloadData(searchResultRV: RecyclerView, searchDetails: SearchDetails){
+//        callDisposable = restApi.pricingGetSession(
+//                cabinclass = searchDetails.cabinclass,
+//                country = searchDetails.country,
+//                currency = searchDetails.currency,
+//                locale = searchDetails.locale,
+//                locationSchema = searchDetails.locationSchema,
+//                originplace = searchDetails.originplace,
+//                destinationplace = searchDetails.destinationplace,
+//                outbounddate = searchDetails.outbounddate,
+//                inbounddate = searchDetails.inbounddate,
+//                adults = searchDetails.adults
+//            )
+//            .map{
+//                response -> response.headers().get("Location")
+//            }
+//            .flatMap {
+//                location -> restApi.pricingPollResults(RestApi.addApiKey(location))
+//            }
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .doOnSubscribe { showLoading(true) }
+//            .doAfterTerminate { showLoading(false) }
+//            .subscribe(
+//                { searchResponse ->
+//                    showResults(searchResponse, searchResultRV, searchDetails)
+//                    saveResults(searchResponse)
+//                },
+//                { t -> handleError(t, searchResultRV, searchDetails) }
+//            )
+//    }
+
+    override fun showSearchResults(searchResponse: SearchResponse, searchDetails: SearchDetails){
         setUpAdapter(searchResultRV, searchDetails, searchResponse!!)
         updateHeader(searchResponse)
     }
 
-    private fun handleError(t: Throwable, searchResultRV: RecyclerView, searchDetails: SearchDetails){
+    override fun handleError(t: Throwable, searchDetails: SearchDetails){
         when(t){
             is UnknownHostException -> {
                 showError(getString(R.string.network_error))
@@ -135,16 +153,16 @@ class SearchFragment : BaseFragment() {
 
     private fun handleHttpException(e: HttpException, searchResultRV: RecyclerView, searchDetails: SearchDetails){
         if(e.message?.contains("304") == true){
-            loadSavedResults()?.let { showResults(it, searchResultRV, searchDetails) }
+            loadSavedResults()?.let { showSearchResults(it, searchDetails) }
         }
         else{
             showError(getString(R.string.http_error))
         }
     }
 
-    private fun saveResults(searchResponse: SearchResponse){
-        Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
-    }
+//    private fun saveResults(searchResponse: SearchResponse){
+//        Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
+//    }
 
     private fun loadSavedResults(): SearchResponse{
         return Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
@@ -159,15 +177,16 @@ class SearchFragment : BaseFragment() {
         sort_and_filters.text = getString(R.string.sort_and_filters)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(SEARCH_RESPONSE_KEY, searchResponse)
-        outState.putParcelable(SEARCH_DETAILS_KEY, searchDetails)
-    }
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        outState.putParcelable(SEARCH_RESPONSE_KEY, searchResponse)
+//        outState.putParcelable(SEARCH_DETAILS_KEY, searchDetails)
+//    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        callDisposable?.dispose()
-    }
+    // TODO handle it in presenter
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        callDisposable?.dispose()
+//    }
 
 }

@@ -8,6 +8,7 @@ import com.example.sky.R
 import com.example.sky.helper.formatSearchDetails
 import com.example.sky.helper.getNextMondayAndNextDayReturn
 import com.example.sky.model.SearchDetails
+import com.example.sky.search.SearchPresenter
 import com.example.sky.ui.fragment.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,10 +30,27 @@ class SearchActivity : AppCompatActivity() {
         search_title_places.text = getString(R.string.search_title_places, searchDetails.originplace, searchDetails.destinationplace)
         search_title_details.text = formatSearchDetails(searchDetails, this)
 
-        replaceFragment(
-            if(savedInstanceState != null) supportFragmentManager.getFragment(savedInstanceState, ACTIVE_FRAGMENT_KEY)
-            else SearchFragment.newInstance(searchDetails)
-        )
+//        replaceFragment(
+//            if(savedInstanceState != null) supportFragmentManager.getFragment(savedInstanceState, ACTIVE_FRAGMENT_KEY)
+//            else SearchFragment.newInstance()
+//        )
+
+
+        var searchFragment: SearchFragment? = supportFragmentManager
+                .findFragmentById(R.id.fragment_container) as? SearchFragment
+        if (searchFragment == null) {
+            // TODO change it to putting in bundle
+            searchFragment = SearchFragment.newInstance()
+            // TODO put this back
+//            ActivityUtils.addFragmentToActivity(supportFragmentManager,
+//                    searchFragment, R.id.contentFrame)
+            // TODO nuccheck on id and fragment
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(R.id.fragment_container, searchFragment)
+            transaction.commit()
+        }
+
+        SearchPresenter(searchFragment)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -50,7 +68,7 @@ class SearchActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-
+    // TODO remove and only have it in presenter
     fun getMockSearchDetails(): SearchDetails {
         val nextMondayAndNextDayReturn = getNextMondayAndNextDayReturn()
         return SearchDetails(
