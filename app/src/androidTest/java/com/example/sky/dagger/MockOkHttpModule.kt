@@ -12,7 +12,7 @@ import javax.inject.Singleton
 class MockOkHttpModule() {
     @Provides
     @Singleton
-    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor, @Named("format") interceptor: Interceptor): OkHttpClient {
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         val responseInterceptor = object : Interceptor{
             override fun intercept(chain: Interceptor.Chain): Response {
                 return Response.Builder()
@@ -27,7 +27,6 @@ class MockOkHttpModule() {
         }
         return OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
-                .addInterceptor(interceptor)
                 .addInterceptor(responseInterceptor)
                 .build()
     }

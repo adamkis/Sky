@@ -13,4 +13,5 @@ class AppModule(internal var mApplication: Application) {
     fun providesApplication(): Application {
         return mApplication
     }
+
 }
