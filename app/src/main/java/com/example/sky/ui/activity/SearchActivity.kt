@@ -41,7 +41,7 @@ class SearchActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    fun getSearchDetails(): SearchDetails {
+    private fun getSearchDetails(): SearchDetails {
         val nextMondayAndNextDayReturn = getNextMondayAndNextDayReturn()
         return SearchDetails(
                 cabinclass = "Economy",

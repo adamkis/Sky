@@ -24,9 +24,9 @@ abstract class BaseFragment : Fragment(){
 
     fun showError(@StringRes stringRes: Int){
         coordinatorLayout?.let {
-            val snackbar = Snackbar.make(it, getString(stringRes), Snackbar.LENGTH_LONG)
-            snackbar.setAction(getString(R.string.dismiss)) { snackbar.dismiss() }
-            snackbar.show()
+            val snackBar = Snackbar.make(it, getString(stringRes), Snackbar.LENGTH_LONG)
+            snackBar.setAction(getString(R.string.dismiss)) { snackBar.dismiss() }
+            snackBar.show()
         }
     }
 

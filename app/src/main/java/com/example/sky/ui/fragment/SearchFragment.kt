@@ -51,7 +51,7 @@ class SearchFragment : BaseFragment(), SearchContract.View {
     }
 
     override fun showSearchResults(searchResponse: SearchResponse, searchDetails: SearchDetails){
-        setUpAdapter(searchResultRV, searchDetails, searchResponse!!)
+        setUpAdapter(searchResultRV, searchDetails, searchResponse)
         updateHeader(searchResponse)
     }
 
