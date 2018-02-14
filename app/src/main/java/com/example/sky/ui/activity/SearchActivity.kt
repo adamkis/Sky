@@ -1,7 +1,6 @@
 package com.example.sky.ui.activity
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import com.example.sky.R
@@ -26,7 +25,7 @@ class SearchActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val searchDetails = getMockSearchDetails()
+        val searchDetails = getSearchDetails()
         search_title_places.text = getString(R.string.search_title_places, searchDetails.originplace, searchDetails.destinationplace)
         search_title_details.text = formatSearchDetails(searchDetails, this)
 
@@ -50,7 +49,7 @@ class SearchActivity : AppCompatActivity() {
             transaction.commit()
         }
 
-        SearchPresenter(searchFragment)
+        SearchPresenter(searchFragment, searchDetails)
     }
 
 //    override fun onSaveInstanceState(outState: Bundle?) {
@@ -68,8 +67,7 @@ class SearchActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    // TODO remove and only have it in presenter
-    fun getMockSearchDetails(): SearchDetails {
+    fun getSearchDetails(): SearchDetails {
         val nextMondayAndNextDayReturn = getNextMondayAndNextDayReturn()
         return SearchDetails(
                 cabinclass = "Economy",

@@ -18,7 +18,7 @@ import retrofit2.HttpException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
-class SearchPresenter(private val mSearchView: SearchContract.View) : SearchContract.Presenter {
+class SearchPresenter(private val mSearchView: SearchContract.View, private val searchDetails: SearchDetails) : SearchContract.Presenter {
 
 //    private val mSearchView: SearchContract.View
 
@@ -32,7 +32,7 @@ class SearchPresenter(private val mSearchView: SearchContract.View) : SearchCont
     }
 
     override fun start() {
-        downloadData(getMockSearchDetails())
+        downloadData(searchDetails)
     }
 
     private fun downloadData(searchDetails: SearchDetails){
@@ -102,24 +102,6 @@ class SearchPresenter(private val mSearchView: SearchContract.View) : SearchCont
 
     private fun loadSavedResults(): SearchResponse{
         return Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
-    }
-
-
-
-    fun getMockSearchDetails(): SearchDetails {
-        val nextMondayAndNextDayReturn = getNextMondayAndNextDayReturn()
-        return SearchDetails(
-                cabinclass = "Economy",
-                country = "uk",
-                currency = "GBP",
-                locale = "en-GB",
-                locationSchema = "iata",
-                originplace = "EDI",
-                destinationplace = "LHR",
-                outbounddate = nextMondayAndNextDayReturn.first,
-                inbounddate = nextMondayAndNextDayReturn.second,
-                adults = "1"
-        )
     }
 
 }
