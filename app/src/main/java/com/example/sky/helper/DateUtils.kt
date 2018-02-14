@@ -1,9 +1,11 @@
 package com.example.sky.helper
 
+import android.annotation.SuppressLint
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+@SuppressLint("SimpleDateFormat")
 fun getTimeFromDateTimeString(dateTime: String): String? {
     val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
     val hoursMinutesFormat = SimpleDateFormat("HH:mm")
@@ -18,6 +20,7 @@ fun getTimeFromDateTimeString(dateTime: String): String? {
     return timeString
 }
 
+@SuppressLint("SimpleDateFormat")
 fun getDayMonth(dateString: String?): String? {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd")
     val dayMonthFormat = SimpleDateFormat("dd MMM")
@@ -32,6 +35,7 @@ fun getDayMonth(dateString: String?): String? {
     return dayMonthString
 }
 
+@SuppressLint("SimpleDateFormat")
 fun getDateString(date: Date): String? {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd")
     var dateString: String? = null
@@ -53,7 +57,7 @@ fun getNextMondayAndNextDayReturn(): Pair<String, String>{
     }
     inBoundDate.add(Calendar.DATE, 1)
 
-    var outBoundString = getDateString(outBoundDate.time) ?: ""
-    var inBoundString = getDateString(inBoundDate.time) ?: ""
+    val outBoundString = getDateString(outBoundDate.time) ?: ""
+    val inBoundString = getDateString(inBoundDate.time) ?: ""
     return Pair(outBoundString, inBoundString)
 }

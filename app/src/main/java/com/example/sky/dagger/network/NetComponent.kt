@@ -1,8 +1,6 @@
 package com.example.sky.dagger.network
 
 import com.example.sky.search.SearchPresenter
-import com.example.sky.ui.activity.SearchActivity
-import com.example.sky.ui.fragment.SearchFragment
 import dagger.Component
 import javax.inject.Singleton
 

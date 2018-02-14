@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 
 @Module
-class RestApiModule() {
+class RestApiModule {
     @Provides
     @Singleton
     fun provideRestApi(retrofit: Retrofit): RestApi {

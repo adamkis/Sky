@@ -7,7 +7,7 @@ import javax.inject.Singleton
 
 
 @Module
-class LoggingInterceptorModule() {
+class LoggingInterceptorModule {
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {

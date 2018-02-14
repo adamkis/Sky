@@ -7,7 +7,7 @@ import javax.inject.Singleton
 
 
 @Module
-class GsonConverterFactoryModule() {
+class GsonConverterFactoryModule {
     @Provides
     @Singleton
     fun provideGsonConverterFactory(): GsonConverterFactory {

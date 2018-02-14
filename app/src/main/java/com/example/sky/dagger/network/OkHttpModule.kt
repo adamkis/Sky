@@ -5,15 +5,13 @@ import com.example.sky.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import javax.inject.Named
 import javax.inject.Singleton
 
 
 @Module
-class OkHttpModule() {
+class OkHttpModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor,

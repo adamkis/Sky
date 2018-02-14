@@ -8,8 +8,8 @@ import java.util.*
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class SearchResponse(
-        var SessionKey: String? = null,
-        var Status: String? = null,
+        private var SessionKey: String? = null,
+        private var Status: String? = null,
         var Itineraries: Array<Itinerary>? = null,
         var Legs: Array<Leg>? = null,
         var Places: Array<Place>? = null,
