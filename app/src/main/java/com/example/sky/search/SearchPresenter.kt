@@ -2,8 +2,11 @@ package com.example.sky.search
 
 import android.support.v7.widget.RecyclerView
 import com.example.sky.App
+import com.example.sky.R
 import com.example.sky.helper.FilePersistenceHelper
 import com.example.sky.helper.getNextMondayAndNextDayReturn
+import com.example.sky.helper.getStackTrace
+import com.example.sky.helper.logDebug
 import com.example.sky.model.SearchDetails
 import com.example.sky.model.SearchResponse
 import com.example.sky.network.RestApi
@@ -11,6 +14,8 @@ import io.paperdb.Paper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class SearchPresenter(private val mSearchView: SearchContract.View) : SearchContract.Presenter {
@@ -22,8 +27,6 @@ class SearchPresenter(private val mSearchView: SearchContract.View) : SearchCont
     private var callDisposable: Disposable? = null
 
     init {
-        // TODO null check
-//        mSearchView = checkNotNull(statisticsView, "StatisticsView cannot be null!")
         App.netComponent.inject(this)
         mSearchView.setPresenter(this)
     }
@@ -60,14 +63,47 @@ class SearchPresenter(private val mSearchView: SearchContract.View) : SearchCont
                             mSearchView.showSearchResults(searchResponse, searchDetails)
                             saveResults(searchResponse)
                         },
-                        { t -> mSearchView.handleError(t, searchDetails) }
+                        { t -> handleError(t, searchDetails) }
                 )
+    }
+
+
+    private fun handleError(t: Throwable, searchDetails: SearchDetails){
+        when(t){
+            is UnknownHostException -> {
+                mSearchView.showError(R.string.network_error)
+            }
+            is NullPointerException -> {
+                mSearchView.showError(R.string.could_not_load_data)
+            }
+            is HttpException -> {
+                handleHttpException(t, searchDetails)
+            }
+            else -> {
+                mSearchView.showError(R.string.error)
+            }
+        }
+        logDebug(getStackTrace(t))
+    }
+
+    private fun handleHttpException(e: HttpException, searchDetails: SearchDetails){
+        if(e.message?.contains("304") == true){
+            loadSavedResults()?.let { mSearchView.showSearchResults(it, searchDetails) }
+        }
+        else{
+            mSearchView.showError(R.string.http_error)
+        }
     }
 
 
     private fun saveResults(searchResponse: SearchResponse){
         Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
     }
+
+    private fun loadSavedResults(): SearchResponse{
+        return Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
+    }
+
 
 
     fun getMockSearchDetails(): SearchDetails {

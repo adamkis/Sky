@@ -1,5 +1,6 @@
 package com.example.sky.search
 
+import android.support.annotation.StringRes
 import com.example.sky.BasePresenter
 import com.example.sky.BaseView
 import com.example.sky.model.SearchDetails
@@ -19,7 +20,7 @@ interface SearchContract {
 
         fun showSearchResults(searchResponse: SearchResponse, searchDetails: SearchDetails)
 
-        fun handleError(t: Throwable, searchDetails: SearchDetails)
+        fun showError(@StringRes stringRes: Int)
     }
 
     interface Presenter : BasePresenter

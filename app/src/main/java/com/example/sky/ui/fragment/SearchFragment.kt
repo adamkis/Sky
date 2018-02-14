@@ -126,41 +126,41 @@ class SearchFragment : BaseFragment(), SearchContract.View {
         setUpAdapter(searchResultRV, searchDetails, searchResponse!!)
         updateHeader(searchResponse)
     }
-
-    override fun handleError(t: Throwable, searchDetails: SearchDetails){
-        when(t){
-            is UnknownHostException -> {
-                showError(getString(R.string.network_error))
-            }
-            is NullPointerException -> {
-                showError(getString(R.string.could_not_load_data))
-            }
-            is HttpException -> {
-                handleHttpException(t, searchResultRV, searchDetails)
-            }
-            else -> {
-                showError(getString(R.string.error))
-            }
-        }
-        logDebug(getStackTrace(t))
-    }
-
-    private fun handleHttpException(e: HttpException, searchResultRV: RecyclerView, searchDetails: SearchDetails){
-        if(e.message?.contains("304") == true){
-            loadSavedResults()?.let { showSearchResults(it, searchDetails) }
-        }
-        else{
-            showError(getString(R.string.http_error))
-        }
-    }
+//
+//    override fun handleError(t: Throwable, searchDetails: SearchDetails){
+//        when(t){
+//            is UnknownHostException -> {
+//                showError(getString(R.string.network_error))
+//            }
+//            is NullPointerException -> {
+//                showError(getString(R.string.could_not_load_data))
+//            }
+//            is HttpException -> {
+//                handleHttpException(t, searchResultRV, searchDetails)
+//            }
+//            else -> {
+//                showError(getString(R.string.error))
+//            }
+//        }
+//        logDebug(getStackTrace(t))
+//    }
+//
+//    private fun handleHttpException(e: HttpException, searchResultRV: RecyclerView, searchDetails: SearchDetails){
+//        if(e.message?.contains("304") == true){
+//            loadSavedResults()?.let { showSearchResults(it, searchDetails) }
+//        }
+//        else{
+//            showError(getString(R.string.http_error))
+//        }
+//    }
 
 //    private fun saveResults(searchResponse: SearchResponse){
 //        Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
 //    }
-
-    private fun loadSavedResults(): SearchResponse{
-        return Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
-    }
+//
+//    private fun loadSavedResults(): SearchResponse{
+//        return Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
+//    }
 
     private fun setUpAdapter(searchResultRV: RecyclerView, searchDetails: SearchDetails, searchResponse: SearchResponse){
         searchResultRV.layoutManager = LinearLayoutManager(activity as Context, LinearLayout.VERTICAL, false)

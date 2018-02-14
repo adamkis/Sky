@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class SearchActivity : AppCompatActivity() {
 
-    private var activeFragment: Fragment? = null
-    private val ACTIVE_FRAGMENT_KEY = "ACTIVE_FRAGMENT_KEY"
+//    private var activeFragment: Fragment? = null
+//    private val ACTIVE_FRAGMENT_KEY = "ACTIVE_FRAGMENT_KEY"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +53,15 @@ class SearchActivity : AppCompatActivity() {
         SearchPresenter(searchFragment)
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        supportFragmentManager.putFragment(outState, ACTIVE_FRAGMENT_KEY, activeFragment);
-    }
+//    override fun onSaveInstanceState(outState: Bundle?) {
+//        super.onSaveInstanceState(outState)
+//        supportFragmentManager.putFragment(outState, ACTIVE_FRAGMENT_KEY, activeFragment);
+//    }
 
-    private fun replaceFragment(fragment: Fragment){
-        activeFragment = fragment
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, activeFragment).commit()
-    }
+//    private fun replaceFragment(fragment: Fragment){
+//        activeFragment = fragment
+//        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, activeFragment).commit()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)

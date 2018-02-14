@@ -1,5 +1,6 @@
 package com.example.sky.ui.fragment
 
+import android.support.annotation.StringRes
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -21,9 +22,9 @@ abstract class BaseFragment : Fragment(){
         loadingView?.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    protected fun showError(message: String){
+    fun showError(@StringRes stringRes: Int){
         coordinatorLayout?.let {
-            val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_LONG)
+            val snackbar = Snackbar.make(it, getString(stringRes), Snackbar.LENGTH_LONG)
             snackbar.setAction(getString(R.string.dismiss)) { snackbar.dismiss() }
             snackbar.show()
         }
