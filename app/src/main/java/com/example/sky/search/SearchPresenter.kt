@@ -82,8 +82,9 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
     }
 
     private fun handleHttpException(e: HttpException, searchDetails: SearchDetails){
-        if(e.message?.contains("304") == true){
-            loadSavedResults()?.let { mSearchView.showSearchResults(it, searchDetails) }
+        val searchResponse: SearchResponse? = loadSavedResults()
+        if(e.message?.contains("304") == true && searchResponse != null){
+            mSearchView.showSearchResults(searchResponse, searchDetails)
         }
         else{
             mSearchView.showError(R.string.http_error)
@@ -94,8 +95,8 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
         Paper.book().write(FilePersistenceHelper.RESPONSE_KEY, searchResponse)
     }
 
-    private fun loadSavedResults(): SearchResponse{
-        return Paper.book().read(FilePersistenceHelper.RESPONSE_KEY)
+    private fun loadSavedResults(): SearchResponse?{
+        return Paper.book().read(FilePersistenceHelper.RESPONSE_KEY, null)
     }
 
     override fun onViewAttached() {}
@@ -103,6 +104,5 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
     override fun onViewDetached() {
         callDisposable?.dispose()
     }
-
 
 }
