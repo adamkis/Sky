@@ -15,6 +15,7 @@ import com.example.sky.search.SearchActivity
 import org.junit.Rule
 import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.widget.TextView
+import junit.framework.Assert.assertEquals
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 
@@ -27,17 +28,9 @@ class SearchActivityInstrumentedTest {
     val activityRule = ActivityTestRule<SearchActivity>(SearchActivity::class.java)
 
     @Test
-    fun homeActivity_Displayed() {
-        onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.action_bar)))).check(matches(withText(TestUtils.getString(R.string.title_home))))
+    fun search_initial() {
+        // TODO Check for header texts here
     }
 
-    @Test
-    fun homeActivity_BottomNavigationClicks(){
-        onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.action_bar)))).check(matches(withText(TestUtils.getString(R.string.title_home))))
-//        onView(withId(R.id.navigation_search)).perform(click())
-        onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.action_bar)))).check(matches(withText(TestUtils.getString(R.string.title_search))))
-//        onView(withId(R.id.navigation_home)).perform(click())
-        onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.action_bar)))).check(matches(withText(TestUtils.getString(R.string.title_home))))
-    }
 
 }
