@@ -42,16 +42,12 @@ class SearchFragment : BaseFragment(), SearchContract.View {
         super.onViewCreated(view, savedInstanceState)
         setUpLoadingAndError(view.findViewById(R.id.loading), view as CoordinatorLayout)
         searchResultRV = view.findViewById(R.id.search_result_recycler_view)
+        // Starting the presenter
+        mPresenter.start()
         // TODO remove
         header.setOnClickListener {
             mPresenter.start()
         }
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        mPresenter.start()
     }
 
     override fun showSearchResults(searchResponse: SearchResponse, searchDetails: SearchDetails){
