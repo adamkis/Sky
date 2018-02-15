@@ -48,3 +48,10 @@ fun formatVia(input: String?): String {
     return "via " + input
 }
 
+
+fun formatCity(input: String?): String {
+    if("EDI-sky" == input) return "Edinburgh"
+    if("LOND-sky" == input) return "London"
+    return ""
+}
+

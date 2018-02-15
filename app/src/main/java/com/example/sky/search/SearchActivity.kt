@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import com.example.sky.R
+import com.example.sky.helper.formatCity
 import com.example.sky.helper.formatSearchDetails
 import com.example.sky.helper.getNextMondayAndNextDayReturn
 import com.example.sky.model.SearchDetails
@@ -21,7 +22,8 @@ class SearchActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        search_title_places.text = getString(R.string.search_title_places, searchDetails.originplace, searchDetails.destinationplace)
+        search_title_places.text = getString(R.string.search_title_places,
+                formatCity(searchDetails.originplace), formatCity(searchDetails.destinationplace))
         search_title_details.text = formatSearchDetails(searchDetails, this)
         // Creating SearchFragment
         var searchFragment: SearchFragment? = supportFragmentManager
