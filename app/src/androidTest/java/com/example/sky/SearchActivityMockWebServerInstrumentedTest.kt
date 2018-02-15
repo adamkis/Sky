@@ -8,7 +8,7 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import android.support.test.espresso.matcher.ViewMatchers
 import android.support.v7.widget.RecyclerView
 import android.support.test.rule.ActivityTestRule
 import com.example.sky.helper.MatcherUtils.atPosition
@@ -60,7 +60,7 @@ class SearchActivityMockWebServerInstrumentedTest {
     }
 
     @Test
-    fun searchActivity_listValues() {
+    fun listValuesShouldMatch() {
         @IdRes val rvId = R.id.search_result_recycler_view
         val testValues: HashMap<Int, ArrayList<String>> = getTestValues()
         testValues.forEach {
@@ -71,6 +71,12 @@ class SearchActivityMockWebServerInstrumentedTest {
                 }
         }
     }
+
+    @Test
+    fun headerShouldBeShown() {
+        onView(withText("3 of 3 results")).check(matches(ViewMatchers.isDisplayed()))
+    }
+
 
     private fun getTestValues(): HashMap<Int, ArrayList<String>> {
         val testValues: HashMap<Int, ArrayList<String>> = HashMap()

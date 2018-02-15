@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
@@ -28,9 +29,9 @@ class SearchActivityInstrumentedTest {
     val activityRule = ActivityTestRule<SearchActivity>(SearchActivity::class.java)
 
     @Test
-    fun search_initial() {
-        // TODO Check for header texts here
+    fun toolbarShouldBeShown() {
+        onView(withText("EDI - LHR")).check(matches(ViewMatchers.isDisplayed()))
+        onView(withText("19 Feb - 20 Feb, 1 adult, Economy")).check(matches(ViewMatchers.isDisplayed()))
     }
-
 
 }
