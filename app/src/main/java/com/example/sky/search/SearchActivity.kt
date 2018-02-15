@@ -47,8 +47,8 @@ class SearchActivity : AppCompatActivity() {
                 currency = "GBP",
                 locale = "en-GB",
                 locationSchema = "iata",
-                originplace = "EDI",
-                destinationplace = "LHR",
+                originplace = "EDI-sky",
+                destinationplace = "LOND-sky",
                 outbounddate = nextMondayAndNextDayReturn.first,
                 inbounddate = nextMondayAndNextDayReturn.second,
                 adults = "1"

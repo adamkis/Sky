@@ -64,8 +64,8 @@ class SearchResultAdapter(searchDetails: SearchDetails,
 
         fun bind(itinerary: Itinerary?){
             fillAgentAndPrice(itinerary)
-            fillLegInfo(legsMap[itinerary?.InboundLegId], view.findViewById<View>(R.id.info_row_1))
-            fillLegInfo(legsMap[itinerary?.OutboundLegId], view.findViewById<View>(R.id.info_row_2))
+            fillLegInfo(legsMap[itinerary?.OutboundLegId], view.findViewById<View>(R.id.info_row_1))
+            fillLegInfo(legsMap[itinerary?.InboundLegId], view.findViewById<View>(R.id.info_row_2))
         }
 
         private fun fillAgentAndPrice(itinerary: Itinerary?){
