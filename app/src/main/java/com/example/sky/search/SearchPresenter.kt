@@ -85,20 +85,25 @@ class SearchPresenter(private val mSearchView: SearchContract.View, private val 
     }
 
     private fun handleHttpException(e: HttpException, searchDetails: SearchDetails){
-        paperDisposable =  Observable.just<SearchResponse>( loadSavedResults() )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe (
-                { searchResponse ->
-                    if(e.message?.contains("304") == true && searchResponse != null){
-                        mSearchView.showSearchResults(searchResponse, searchDetails)
-                    }
-                    else{
-                        mSearchView.showError(R.string.http_error)
-                    }
-                },
-                { logThrowable(it) }
-            )
+        val searchResponse: SearchResponse? = loadSavedResults()
+        if( searchResponse != null ) {
+            paperDisposable = Observable.just<SearchResponse>(searchResponse)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { searchResponse ->
+                                if (e.message?.contains("304") == true && searchResponse != null) {
+                                    mSearchView.showSearchResults(searchResponse, searchDetails)
+                                } else {
+                                    mSearchView.showError(R.string.http_error)
+                                }
+                            },
+                            { logThrowable(it) }
+                    )
+        }
+        else{
+            mSearchView.showError(R.string.http_error)
+        }
     }
 
     private fun saveResults(searchResponse: SearchResponse){
