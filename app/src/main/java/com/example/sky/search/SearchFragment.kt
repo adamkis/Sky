@@ -44,10 +44,6 @@ class SearchFragment : BaseFragment(), SearchContract.View {
         searchResultRV = view.findViewById(R.id.search_result_recycler_view)
         // Starting the presenter
         mPresenter.start()
-        // TODO remove
-        header.setOnClickListener {
-            mPresenter.start()
-        }
     }
 
     override fun showSearchResults(searchResponse: SearchResponse, searchDetails: SearchDetails){
