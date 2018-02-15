@@ -2,6 +2,7 @@ package com.example.sky
 
 import android.content.Context
 import android.content.Intent
+import android.support.annotation.IdRes
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -60,29 +61,22 @@ class SearchActivityMockWebServerInstrumentedTest {
 
     @Test
     fun searchActivity_listValues() {
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("20:45 - 22:05")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("Direct")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("LHR-EDI, British Airways")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("1h 20m")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("06:50 - 08:30")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("Direct")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("LHR-EDI, British Airways")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("1h 40m")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("£79")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(0, hasDescendant(withText("via British Airways")))))
+        @IdRes val rvId = R.id.search_result_recycler_view
+        val testValues: HashMap<Int, ArrayList<String>> = getTestValues()
+        testValues.forEach {
+            entry ->
+                onView(withId(rvId)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(entry.key))
+                entry.value.forEach {
+                    text -> onView(withId(rvId)).check(matches(atPosition(entry.key, hasDescendant(withText(text)))))
+                }
+        }
+    }
 
-        onView(withId(R.id.search_result_recycler_view)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(1))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("20:45 - 22:05")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("Direct")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("LHR-EDI, British Airways")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("1h 20m")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("20:35 - 21:55")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("Direct")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("LHR-EDI, British Airways")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("1h 20m")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("£79")))))
-        onView(withId(R.id.search_result_recycler_view)).check(matches(atPosition(1, hasDescendant(withText("via British Airways")))))
-
+    private fun getTestValues(): HashMap<Int, ArrayList<String>> {
+        val testValues: HashMap<Int, ArrayList<String>> = HashMap()
+        testValues.put(0, arrayListOf("20:45 - 22:05", "Direct", "LHR-EDI, British Airways", "1h 20m", "06:50 - 08:30", "Direct", "LHR-EDI, British Airways", "1h 40m", "£79", "via British Airways"))
+        testValues.put(1, arrayListOf("20:45 - 22:05", "Direct", "LHR-EDI, British Airways", "1h 20m", "20:35 - 21:55", "Direct", "LHR-EDI, British Airways", "1h 20m", "£79", "via British Airways"))
+        return testValues
     }
 
 }
