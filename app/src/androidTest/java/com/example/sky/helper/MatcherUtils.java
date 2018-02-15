@@ -8,10 +8,6 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-/**
- * Created by adam on 2018. 02. 14..
- */
-
 public class MatcherUtils {
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
