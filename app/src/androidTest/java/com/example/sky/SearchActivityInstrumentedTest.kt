@@ -30,7 +30,7 @@ class SearchActivityInstrumentedTest {
 
     @Test
     fun toolbarShouldBeShown() {
-        onView(withText("EDI - LHR")).check(matches(ViewMatchers.isDisplayed()))
+        onView(withText("Edinburgh - London")).check(matches(ViewMatchers.isDisplayed()))
         onView(withText("19 Feb - 20 Feb, 1 adult, Economy")).check(matches(ViewMatchers.isDisplayed()))
     }
 
