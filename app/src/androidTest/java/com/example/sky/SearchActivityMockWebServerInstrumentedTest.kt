@@ -76,6 +76,7 @@ class SearchActivityMockWebServerInstrumentedTest {
         val testValues: HashMap<Int, ArrayList<String>> = HashMap()
         testValues.put(0, arrayListOf("20:45 - 22:05", "Direct", "LHR-EDI, British Airways", "1h 20m", "06:50 - 08:30", "Direct", "LHR-EDI, British Airways", "1h 40m", "£79", "via British Airways"))
         testValues.put(1, arrayListOf("20:45 - 22:05", "Direct", "LHR-EDI, British Airways", "1h 20m", "20:35 - 21:55", "Direct", "LHR-EDI, British Airways", "1h 20m", "£79", "via British Airways"))
+        testValues.put(2, arrayListOf("20:05 - 21:30", "Direct", "LHR-EDI, British Airways", "1h 25m", "06:50 - 08:30", "Direct", "LHR-EDI, British Airways", "1h 40m", "£84", "via Expedia"))
         return testValues
     }
 
