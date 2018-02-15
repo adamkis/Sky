@@ -7,6 +7,7 @@ import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -21,6 +22,9 @@ class OkHttpModule {
         val cache = Cache(application.cacheDir, cacheSize)
         var builder = OkHttpClient.Builder()
                 .cache(cache)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG){
             builder = builder.addInterceptor(httpLoggingInterceptor)
         }
